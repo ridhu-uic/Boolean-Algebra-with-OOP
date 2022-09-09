@@ -1,0 +1,51 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/assignment-1_3-0.1.0-SNAPSHOT.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$NAND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$NAND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$NOT$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$NOT$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/runBoolExp.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/runBoolExp.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$XOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$XOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$XNOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$XNOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$NAND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$NAND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$OR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$OR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/runBoolExp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/runBoolExp.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$AND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$AND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$Value$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$Value$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$AND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$AND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$XOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$XOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$NOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$NOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$XNOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$XNOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$OR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$OR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$Value.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$Value.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$NOT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$NOT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	scala/BoolExp$BooleanExpression$NOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ridhuparan/IdeaProjects/CS-474-/Assignment 1/target/scala-3.1.3/classes/scala/BoolExp$BooleanExpression$NOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m
