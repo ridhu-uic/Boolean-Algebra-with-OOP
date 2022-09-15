@@ -1,70 +1,68 @@
 package scala
 import scala.collection.mutable.Map
 
-object Assignment:
-  var logicalGateMap : Map[String,Boolean] = scala.collection.mutable.Map()
+object logicGate:
+  var input : Map[String,Boolean] = scala.collection.mutable.Map()
+  private var gateStates : Map[String,Boolean] = scala.collection.mutable.Map()
 
-  var inputMap : Map[String,Boolean] = scala.collection.mutable.Map()
 
-  enum BooleanExpression:
-    case Value(v: Boolean)
-    case Variable(x: String)
-    case Input(x: String)
-    case logicGate(x:String)
-    case NOT(o1: BooleanExpression)
-    case OR(o1: BooleanExpression, o2: BooleanExpression)
-    case AND(o1: BooleanExpression, o2: BooleanExpression)
-    case NAND(o1: BooleanExpression, o2: BooleanExpression) extends BooleanExpression
-    case NOR(o1: BooleanExpression, o2: BooleanExpression)
-    case XOR(o1: BooleanExpression, o2: BooleanExpression)
-    case XNOR(o1: BooleanExpression, o2: BooleanExpression)
+  def NOT(x1: Boolean): Boolean =
+    !x1
 
-    def eval: Boolean = this match
-      case Value(x: Boolean) => x
-      case Variable(x: String) => logicalGateMap.getOrElse(x.toString, throw new Exception(x)) // why it doesnt work without toString
-      case Input(x: String) => inputMap.getOrElse(x.toString, throw new Exception(x))
-      case logicGate(x: String) => {print(x.toString)
-        logicalGateMap(x.toString)=false
-        println(logicalGateMap)
-        true}
-      case NOT(o1) => !o1.eval
-      case OR(o1, o2) => o1.eval | o2.eval
-      case AND(o1, o2) => o1.eval & o2.eval
-      case NAND(o1, o2) => !(o1.eval & o2.eval)
-      case NOR(o1, o2) => !(o1.eval | o2.eval)
-      case XOR(o1, o2) => o1.eval ^ o2.eval
-      case XNOR(o1, o2) => !(o1.eval ^ o2.eval)
+  def AND (x1 : Boolean,x2 : Boolean): Boolean =
+    x1&x2
 
-  def Assign(lg : scala.Assignment.BooleanExpression, valueExp : scala.Assignment.BooleanExpression) =
-    val value = valueExp.eval
-    print("logic gate expression ")
-    if lg.toString.matches("logicGate.*") == true then {
-      val Str1 = lg.toString
-      //println(Str)
-      //println(Str.length)
-      val gate = Str1.substring(10,Str1.length-1)
-      //print("gate = ")
-      //println(gate)
-      logicalGateMap(gate)=value
-      print("LogicGateMap is ")
-      println(logicalGateMap)
+  def OR(x1: Boolean, x2: Boolean): Boolean =
+    x1 | x2
+
+  def XOR(x1: Boolean, x2: Boolean): Boolean =
+    x1 ^ x2
+
+  def NAND(x1: Boolean, x2: Boolean): Boolean =
+    !(x1 & x2)
+
+  def NOR(x1: Boolean, x2: Boolean): Boolean =
+    !(x1 | x2)
+
+  def XNOR(x1: Boolean, x2: Boolean): Boolean =
+    x1==x2
+
+  def assign(gate : String, state : Boolean): Boolean =
+    if gate.matches("logicGate.*") == true then {
+      gateStates(gate)=state
+      gateStates(gate)
     }
-    else if lg.toString.matches("Input.*") == true then {
-      val Str2 = lg.toString
-      println(Str2)
-      println(Str2.length)
-      val gate = Str2.substring(6, Str2.length - 1)
-      print("gate = ")
-      println(gate)
-      inputMap(gate) = value
-      print("inputMap is ")
-      println(inputMap)
-    }
-    else
-      print("else loop")
 
-  @main def runIT =
-    import BooleanExpression.*
-    Assign(Input("A"), Value(true))
-    Assign(Input("B"), Value(false))
-    println(Assign(logicGate("LogicGate1"), NOT(OR(Input("A"), Input("B")))))
+    else {
+      input(gate) = state
+      gateStates(gate)
+    }
+
+  def value(gate : String) : Boolean =
+    if gate.matches("logicGate.*") == true then gateStates(gate)
+    else input(gate)
+
+  def scope(gate : String, x1 : Boolean) : Boolean =
+    gateStates(gate) = x1
+    gateStates(gate)
+
+  def testGate(gate : String, state : Boolean ) : Boolean =
+    if gateStates(gate) == state then true
+    else false
+
+
+
+
+  @main  def main(): Unit = {
+    val x : Boolean = true
+    val y : Boolean = false
+    assign("logicGate1",NOT(true))
+    println(value("logicGate1"))
+    println(XOR(x,y))
+    println("Scope")
+    println(scope("logicGate2",assign("logicGate3",XOR(value("logicGate1"),true))))
+
+    println("Hello world!")
+    println(value("logicGate2"))
+    println(testGate("logicGate2",true))
+  }
