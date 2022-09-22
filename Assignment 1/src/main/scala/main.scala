@@ -1,14 +1,22 @@
 object Main:
 
-  case class logicGate(name : String):
-    var state : Boolean
+  trait state:
+    var value : Boolean
     var expression : BooleanExpression
 
-  case class input(name : String ):
-    var state : Boolean
+  case class Input(name: String) extends state:
+    value=false
+    expression=BooleanExpression.Value(false)
+
+
+  case class LogicGate(name: String) extends state:
+    value = false
+    expression = BooleanExpression.Value(false)
+
 
 
   enum BooleanExpression:
+
     case Value(v: Boolean)
     case NOT(o1: BooleanExpression)
     case OR(o1: BooleanExpression, o2: BooleanExpression)
@@ -28,16 +36,14 @@ object Main:
       case XOR(o1, o2) => o1.eval ^ o2.eval
       case XNOR(o1, o2) => !(o1.eval ^ o2.eval)
 
-    def assign(gate : Any,expression: BooleanExpression | Boolean) : Unit = gate match
-      case Main.logicGate => gate.expression=expression
-      case input => input.expression=expression
-
-
+  def assign(gate : state, expression : BooleanExpression): Unit =
+    gate.expression=expression
 
 
   @main def main(): Unit = {
     import BooleanExpression.*
     println(NOT(Value(true)).eval)
-    assign(logicGate("logicGate1"),NOT(Value(true)))
-    assign(input("A"),true)
+    var logicGate1 : LogicGate = new LogicGate("logicGate1")
+    assign(logicGate1,NOT(XOR(Value(true),Value(true))))
+    println(logicGate1.expression)
   }
