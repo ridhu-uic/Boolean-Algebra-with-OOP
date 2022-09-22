@@ -1,68 +1,43 @@
-package scala
-import scala.collection.mutable.Map
+object Main:
 
-object logicGate:
-  var input : Map[String,Boolean] = scala.collection.mutable.Map()
-  private var gateStates : Map[String,Boolean] = scala.collection.mutable.Map()
+  case class logicGate(name : String):
+    var state : Boolean
+    var expression : BooleanExpression
+
+  case class input(name : String ):
+    var state : Boolean
 
 
-  def NOT(x1: Boolean): Boolean =
-    !x1
+  enum BooleanExpression:
+    case Value(v: Boolean)
+    case NOT(o1: BooleanExpression)
+    case OR(o1: BooleanExpression, o2: BooleanExpression)
+    case AND(o1: BooleanExpression, o2: BooleanExpression)
+    case NAND(o1: BooleanExpression, o2: BooleanExpression)
+    case NOR(o1: BooleanExpression, o2: BooleanExpression)
+    case XOR(o1: BooleanExpression, o2: BooleanExpression)
+    case XNOR(o1: BooleanExpression, o2: BooleanExpression)
 
-  def AND (x1 : Boolean,x2 : Boolean): Boolean =
-    x1&x2
+    def eval: Boolean = this match
+      case Value(x: Boolean) => x
+      case NOT(o1) => !o1.eval
+      case OR(o1, o2) => o1.eval | o2.eval
+      case AND(o1, o2) => o1.eval & o2.eval
+      case NAND(o1, o2) => !(o1.eval & o2.eval)
+      case NOR(o1, o2) => !(o1.eval | o2.eval)
+      case XOR(o1, o2) => o1.eval ^ o2.eval
+      case XNOR(o1, o2) => !(o1.eval ^ o2.eval)
 
-  def OR(x1: Boolean, x2: Boolean): Boolean =
-    x1 | x2
-
-  def XOR(x1: Boolean, x2: Boolean): Boolean =
-    x1 ^ x2
-
-  def NAND(x1: Boolean, x2: Boolean): Boolean =
-    !(x1 & x2)
-
-  def NOR(x1: Boolean, x2: Boolean): Boolean =
-    !(x1 | x2)
-
-  def XNOR(x1: Boolean, x2: Boolean): Boolean =
-    x1==x2
-
-  def assign(gate : String, state : Boolean): Boolean =
-    if gate.matches("logicGate.*") == true then {
-      gateStates(gate)=state
-      gateStates(gate)
-    }
-
-    else {
-      input(gate) = state
-      gateStates(gate)
-    }
-
-  def value(gate : String) : Boolean =
-    if gate.matches("logicGate.*") == true then gateStates(gate)
-    else input(gate)
-
-  def scope(gate : String, x1 : Boolean) : Boolean =
-    gateStates(gate) = x1
-    gateStates(gate)
-
-  def testGate(gate : String, state : Boolean ) : Boolean =
-    if gateStates(gate) == state then true
-    else false
+    def assign(gate : Any,expression: BooleanExpression | Boolean) : Unit = gate match
+      case Main.logicGate => gate.expression=expression
+      case input => input.expression=expression
 
 
 
 
-  @main  def main(): Unit = {
-    val x : Boolean = true
-    val y : Boolean = false
-    assign("logicGate1",NOT(true))
-    println(value("logicGate1"))
-    println(XOR(x,y))
-    println("Scope")
-    println(scope("logicGate2",assign("logicGate3",XOR(value("logicGate1"),true))))
-
-    println("Hello world!")
-    println(value("logicGate2"))
-    println(testGate("logicGate2",true))
+  @main def main(): Unit = {
+    import BooleanExpression.*
+    println(NOT(Value(true)).eval)
+    assign(logicGate("logicGate1"),NOT(Value(true)))
+    assign(input("A"),true)
   }
