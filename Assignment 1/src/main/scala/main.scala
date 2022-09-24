@@ -6,7 +6,6 @@ object main:
   def assign(inputClass : Input | LogicGate, value : BooleanExpression,gate : String = "default") : Boolean = inputClass match
     case LogicGate(name)  =>
       LogicGateMap.put(name, value)
-      println(LogicGateMap)
       true
     case Input(name) =>
       if !gate.matches("default") then inputGateMap.put(gate,Map(name->value.eval))
@@ -49,9 +48,17 @@ object main:
     assign(LogicGate("logicGate1"),XOR(Value(true),input_Value(LogicGate("logicGate1"),"A")))
     println(OR(NOT(Value(true)),Value(true)))
 
-    assign(Input("A"),Value(true),"logicGate1")
-
     scope(LogicGate("logicGate1"),Input("A"),Value(true))
     println(inputGateMap)
 
     TestGate(LogicGate("logicGate1"),true)
+
+    assign(LogicGate("logicGate2"),NAND(NAND(input_Value(LogicGate("logicGate2"),"A"),input_Value(LogicGate("logicGate2"),"B")),input_Value(LogicGate("logicGate2"),"C")))
+    //assign(LogicGate("logicGate2"),NAND(Value(true),Value(false)))
+    assign(LogicGate("logicGate3"),NAND(input_Value(LogicGate("logicGate2"),"A"),NAND(NAND(input_Value(LogicGate("logicGate2"),"A"),input_Value(LogicGate("logicGate2"),"C")),input_Value(LogicGate("logicGate2"),"A"))))
+    assign(LogicGate("logicGate4"),NAND(gate_Value(LogicGate("logicGate2")),gate_Value(LogicGate("logicGate3"))))
+    scope(LogicGate("logicGate2"),Input("A"),Value(true))
+    scope(LogicGate("logicGate2"),Input("B"),Value(true))
+    scope(LogicGate("logicGate2"),Input("C"),Value(false))
+    println("LogicGate4")
+    println(TestGate(LogicGate("logicGate4"),true))

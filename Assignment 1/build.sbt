@@ -6,3 +6,8 @@ lazy val root = (project in file("."))
   .settings(
     name := "Assignment 1"
   )
+
+"org.scalatest" %% "scalatest" % scalacticVersion % Test,
+"org.scalatest" %% "scalatest-featurespec" % scalacticVersion % Test,
+
+
