@@ -1,6 +1,5 @@
 import main.*
-import main.BooleanExpression.*
-
+import main.BooleanExpression.{Value, *}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -26,11 +25,19 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
     assertThrows[Exception](TestGate(LogicGate("logicGate6"),true))
   }
 
-  it should "Should evaluate LogicGate 2" in {
-    assign(LogicGate("logicGate2"), AND(input_Value(LogicGate("logicGate2"),"A"), input_Value(LogicGate("logicGate2"),"D")))
+  it should "abide by the De Morgan's law through inputs" in {
+    assign(LogicGate("logicGate1"), NOT(OR(input_Value(LogicGate("logicGate1"),"A"), Value(false))))
+    scope(LogicGate("logicGate1"),Input("A"),Value(true))
     scope(LogicGate("logicGate2"),Input("A"),Value(true))
-    scope(LogicGate("logicGate2"),Input("D"),Value(true))
-    assert(gate_Value(LogicGate("logicGate2")).eval==false)
+    assign(LogicGate("logicGate2"), AND(NOT(input_Value(LogicGate("logicGate2"),"A")), NOT(Value(false))))
+    assert(gate_Value(LogicGate("logicGate1")).eval == gate_Value(LogicGate("logicGate2")).eval)
   }
+
+  it should "checking gate_Value(logicGate).eval" in {
+    assign(LogicGate("logicGate1"), NOT(OR(input_Value(LogicGate("logicGate1"), "A"), Value(false))))
+    scope(LogicGate("logicGate1"), Input("A"), Value(true))
+    assert(!gate_Value(LogicGate("logicGate1")).eval)
+  }
+
 
 }
