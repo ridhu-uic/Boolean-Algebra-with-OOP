@@ -78,10 +78,14 @@ object main:
     //The scopefunction will be improved in the future.
     case scope(gate: LogicGate, inputC: Input, value: BooleanExpression)
 
+    case TestGate(gate : LogicGate, value : Boolean)
+
     def dataType : String = this match
       case Input(name: String) => name
 
       case LogicGate(name: String) => name
+      case _ =>
+        "Match not found"
 
 
     //Using eval to evaluate the Boolean Functions
@@ -98,14 +102,18 @@ object main:
       case gate_Value(gate : BooleanExpression) =>
         gate match
           case LogicGate(name : String) =>
-            println("Inside gate Value -> LogicGate")
-            println(name)
-            println(LogicGateMap)
-            //LogicGateMap.put(name,Value(false))
             val x = LogicGateMap.getOrElse(name,Value(false))
-            println(LogicGateMap)
-            println(x.eval)
             x.eval
+          case _ =>
+            println("Match not found")
+            false
+      case TestGate (gate : LogicGate, value : Boolean) =>
+        gate match
+          case LogicGate(name : String) =>
+            if(LogicGateMap.getOrElse(name,Value(false)).eval==value)
+              true
+            else
+              false
 
 
 
@@ -119,14 +127,15 @@ object main:
           case Input(name) =>
             print("Gate in scope->assign   :")
             println(gate)
-            if (!gate.matches("default")) then
-              {
+            if !gate.matches("default") then
                 println("inside if")
                 inputGateMap.put(gate, Map(name -> value.eval))
-              }
             else
               println("else")
             true
+          case _ =>
+            println("Match not found")
+            false
 
 
       //scope is function used to give abstraction to the user.It helps in assigning the input values.
@@ -137,12 +146,17 @@ object main:
         assign(inputC, value, gate.dataType).eval
         true
 
+      case _ =>
+        println("Match not found")
+        false
 
-  @main def runIT : Unit =
+
+
+  @main def runIT() : Unit =
     import BooleanExpression.*
 
     println(Input("Hello").dataType)
-    println(XOR(NOT(Value(false)),Value(false)).eval);
+    println(XOR(NOT(Value(false)),Value(false)).eval)
 
     //assign is used to assign the BooleanExpression to the logicGate1
     assign(LogicGate("logicGate1"),XOR(Value(true),input_Value(LogicGate("logicGate1"),"A"))).eval
@@ -150,35 +164,33 @@ object main:
     println(LogicGateMap)
     println(inputGateMap)
     gate_Value(LogicGate("logicGate1")).eval
-    /*
+
     //The println statement is used to test the BooleanOperation
     println(OR(NOT(Value(true)),Value(true)))
     //scope is used to assign the value true to input A in logicGate1
-    scope(LogicGate("logicGate1"),Input("A"),Value(true))
+    scope(LogicGate("logicGate1"),Input("A"),Value(true)).eval
     //The inputGateMap is printed for sample
     println(inputGateMap)
     //The logicGateMap is printed for sample
     println(LogicGateMap)
     //TestGate evaluated the expression in logicGate and compares it with the expected Value
-    //TestGate(LogicGate("logicGate1"),true)
+    println(TestGate(LogicGate("logicGate1"),true).eval)
 
 
     //In next few statement the minimal axiom for Boolean Expession is calculated
     //The expression is made using 6 NAND Gates:
     // NAND(NAND(NAND(A,B),C),NAND(A,NAND(NAND(A,C),A)))=C
-    assign(LogicGate("logicGate2"),NAND(NAND(input_Value(LogicGate("logicGate2"),"A"),input_Value(LogicGate("logicGate2"),"B")),input_Value(LogicGate("logicGate2"),"C")))
+    assign(LogicGate("logicGate2"),NAND(NAND(input_Value(LogicGate("logicGate2"),"A"),input_Value(LogicGate("logicGate2"),"B")),input_Value(LogicGate("logicGate2"),"C"))).eval
     //assign(LogicGate("logicGate2"),NAND(Value(true),Value(false)))
-    assign(LogicGate("logicGate3"),NAND(input_Value(LogicGate("logicGate2"),"A"),NAND(NAND(input_Value(LogicGate("logicGate2"),"A"),input_Value(LogicGate("logicGate2"),"C")),input_Value(LogicGate("logicGate2"),"A"))))
-    assign(LogicGate("logicGate4"),NAND(gate_Value(LogicGate("logicGate2")),gate_Value(LogicGate("logicGate3"))))
+    assign(LogicGate("logicGate3"),NAND(input_Value(LogicGate("logicGate2"),"A"),NAND(NAND(input_Value(LogicGate("logicGate2"),"A"),input_Value(LogicGate("logicGate2"),"C")),input_Value(LogicGate("logicGate2"),"A")))).eval
+    assign(LogicGate("logicGate4"),NAND(gate_Value(LogicGate("logicGate2")),gate_Value(LogicGate("logicGate3")))).eval
     //Scope is used to assign values to the input
-    scope(LogicGate("logicGate2"),Input("A"),Value(true))
-    scope(LogicGate("logicGate2"),Input("B"),Value(true))
-    scope(LogicGate("logicGate2"),Input("C"),Value(false))
+    scope(LogicGate("logicGate2"),Input("A"),Value(true)).eval
+    scope(LogicGate("logicGate2"),Input("B"),Value(true)).eval
+    scope(LogicGate("logicGate2"),Input("C"),Value(false)).eval
     println("LogicGate4")
 
     //The logicGate 4 has the expression.The output is C irrespective of A and B
     // False must be returned as the value of C is false but the expected mentioned in TestGate is true
-    println(TestGate(LogicGate("logicGate4"),true))
+    println(TestGate(LogicGate("logicGate4"),true).eval)
     println(gate_Value(LogicGate("logicGate4")).eval)
-
-    */
