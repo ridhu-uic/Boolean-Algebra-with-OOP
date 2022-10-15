@@ -7,7 +7,14 @@ object BooleanOperations:
   val classMap: collection.mutable.Map[String, BooleanExpression.ClassDef] = collection.mutable.Map()
   val fieldMap : collection.mutable.Map[String,collection.mutable.Map[String,BooleanExpression]] = collection.mutable.Map()
   val methodMap : collection.mutable.Map[String,collection.mutable.Map[String,List[BooleanExpression]]] = collection.mutable.Map()
+  val fieldAccessMap: collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
+  val methodAccessMap: collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
 
+  enum accessSpecifier:
+    case private_access
+    case public_access
+    case protected_access
+    
   enum BooleanExpression:
       //Declaring the Boolean Functions
       case Input(name: String)
@@ -16,9 +23,9 @@ object BooleanOperations:
       case get_Field(name_field: String)
       case set_Field(name : String, value : BooleanExpression)
       case invokeMethod(name_field: String)
-      case Field(name : String, value : BooleanExpression)
-      case Method(name : String, value : List[BooleanExpression])
-      case ClassDef(name : String, fields : List[Field],method : List[Method])
+      case Field(name : String, access : accessSpecifier, value : BooleanExpression)
+      case Method(name : String, access : accessSpecifier, value : List[BooleanExpression])
+      case ClassDef(name : String, fields : List[Field],method : List[Method], inherits : String)
       case NewObject(name : String, classType : ClassDef)
       case printClassMap()
       case Object(name : String, action : BooleanExpression)
@@ -60,16 +67,18 @@ object BooleanOperations:
         case get_Method_Object(name_object : String,name_method: String) =>
           Object(name_object,invokeMethod(name_method)).classOperation
 
-
-
-
-
         case Object(name: String, action: BooleanExpression) => action match
           case get_Field(name_field: String) =>
             val x = fieldMap.get(name)
             val y =x.get(name_field)
             println("The value of "+name_field+"in Object "+name+"is :"+y)
             y
+
+          case set_Field(name_field: String,value : BooleanExpression) =>
+            val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map(name_field->value)
+            fieldMap.update(name,temp_fieldMap)
+            value
+
 
           case invokeMethod(name_method : String) =>
             println(name_method+" method invoked.")
@@ -89,27 +98,28 @@ object BooleanOperations:
                   result.push(Value(operation.eval))
             result.top
 
-
-
-
-
         //case Method(name: String, value: BooleanExpression)
         case NewObject(name: String, classType: ClassDef) =>
           classType match
-            case ClassDef(name_class, fields, methods) =>
+            case ClassDef(name_class, fields, methods,inherits) =>
               println("classdef matched")
               println(fields)
               val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
-              for Field(name_field: String, value: BooleanExpression) <- fields do
+              val temp_fieldAccessMap : collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
+              for Field(name_field: String, access : accessSpecifier, value: BooleanExpression) <- fields do
                 temp_fieldMap.update(name_field, value)
+                temp_fieldAccessMap.update(name_field,access)
 
               fieldMap.update(name, temp_fieldMap)
+              fieldAccessMap.update(name,temp_fieldAccessMap)
               println(fieldMap)
               val temp_methodMap: collection.mutable.Map[String, List[BooleanExpression]] = collection.mutable.Map()
-
-              for Method(name_method: String, value: List[BooleanExpression]) <- methods do
+              val temp_methodAccessMap : collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
+              for Method(name_method: String,access : accessSpecifier, value: List[BooleanExpression]) <- methods do
                 temp_methodMap.update(name_method, value)
+                temp_methodAccessMap.update(name_method,access)
               methodMap.update(name, temp_methodMap)
+              methodAccessMap.update(name,temp_methodAccessMap)
               println(methodMap)
               classType
 

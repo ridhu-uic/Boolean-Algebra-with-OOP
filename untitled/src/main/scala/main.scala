@@ -1,19 +1,13 @@
-import BooleanOperations.{BooleanExpression, LogicGateMap, classMap, inputGateMap, methodMap, fieldMap  }
+import BooleanOperations.{BooleanExpression, LogicGateMap, classMap, inputGateMap, methodMap, fieldMap, accessSpecifier  }
 import BooleanOperations.BooleanExpression.*
-
+import BooleanOperations.accessSpecifier.*
 import scala.collection.mutable.ListBuffer
 object main:
 
 
-  enum accessSpecifier:
-    case private_access
-    case public_access
-    case protected_access
-
-
 
   @main def runIT() : Unit =
-    NewObject("A",ClassDef("example",List(Field("A",Value(false)),Field("B",Value(true))),List(Method("One",List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("A","B")))),Method("two",List(XOR(NOT(Value(true)),Value(true)))),Method("three",List(invokeMethod("One"),get_Field("B")))))).classOperation
+    NewObject("A",ClassDef("example",List(Field("A",public_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("A","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",public_access,List(invokeMethod("One"),get_Field("B")))),"None")).classOperation
     //println(classMap)
     println(methodMap)
     println(Object("A",get_Field("A")).classOperation)
