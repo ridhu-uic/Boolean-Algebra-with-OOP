@@ -14,7 +14,7 @@ object BooleanOperations:
     case private_access
     case public_access
     case protected_access
-    
+
   enum BooleanExpression:
       //Declaring the Boolean Functions
       case Input(name: String)
@@ -26,7 +26,7 @@ object BooleanOperations:
       case Field(name : String, access : accessSpecifier, value : BooleanExpression)
       case Method(name : String, access : accessSpecifier, value : List[BooleanExpression])
       case ClassDef(name : String, fields : List[Field],method : List[Method], inherits : String)
-      case NewObject(name : String, classType : ClassDef)
+      case NewObject(name : String, classType : String)
       case printClassMap()
       case Object(name : String, action : BooleanExpression)
 
@@ -64,6 +64,10 @@ object BooleanOperations:
       case TestGate(gate: LogicGate, value: Boolean)
 
       def classOperation : BooleanExpression = this match
+        case ClassDef(name_class, fields, methods,inherits) =>
+          classMap.put(name_class,ClassDef(name_class, fields, methods,inherits))
+          
+          ClassDef(name_class, fields, methods,inherits)
         case get_Method_Object(name_object : String,name_method: String) =>
           Object(name_object,invokeMethod(name_method)).classOperation
 
@@ -99,9 +103,11 @@ object BooleanOperations:
             result.top
 
         //case Method(name: String, value: BooleanExpression)
-        case NewObject(name: String, classType: ClassDef) =>
-          classType match
-            case ClassDef(name_class, fields, methods,inherits) =>
+        case NewObject(name: String, classType: String) =>
+          val x : Option[BooleanExpression.ClassDef] = classMap.get(classType)
+          println(x)
+          x match
+            case Some(ClassDef(name_class , fields ,methods , inherits )) =>
               println("classdef matched")
               println(fields)
               val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
@@ -121,7 +127,11 @@ object BooleanOperations:
               methodMap.update(name, temp_methodMap)
               methodAccessMap.update(name,temp_methodAccessMap)
               println(methodMap)
-              classType
+              ClassDef(name_class, fields, methods,inherits)
+
+            case None =>
+              println("ClassType  "+classType+" not Found")
+              Value(false)
 
       def dataType: String = this match
         case Input(name: String) => name

@@ -4,11 +4,11 @@ import BooleanOperations.accessSpecifier.*
 import scala.collection.mutable.ListBuffer
 object main:
 
-
-
   @main def runIT() : Unit =
-    NewObject("A",ClassDef("example",List(Field("A",public_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("A","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",public_access,List(invokeMethod("One"),get_Field("B")))),"None")).classOperation
-    //println(classMap)
+    ClassDef("example",List(Field("A",public_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("A","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",public_access,List(invokeMethod("One"),get_Field("B")))),"None").classOperation
+    println(classMap)
+    NewObject("A","example").classOperation
+    println(classMap)
     println(methodMap)
     println(Object("A",get_Field("A")).classOperation)
     println("method invoking")
