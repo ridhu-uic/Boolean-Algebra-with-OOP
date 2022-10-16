@@ -6,8 +6,8 @@ import scala.collection.mutable.ListBuffer
 object main:
 
   @main def runIT() : Unit =
-    ClassDef("example",List(Field("A",private_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",public_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"None").classOperation
-    ClassDef("example 1",List(Field("A1",public_access,Value(false)),Field("B1",private_access,Value(true))),List(Method("two1",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two2",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three3",public_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"example").classOperation
+    ClassDef("example",List(set_Field("A",Value(true))),List(Field("A",private_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",private_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"None").classOperation
+    ClassDef("example 1",List(set_Field("A1",Value(true))),List(Field("A1",public_access,Value(false)),Field("B1",private_access,Value(true))),List(Method("two1",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two2",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three3",public_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"example").classOperation
     println()
     println()
     println(classMap)
@@ -40,8 +40,8 @@ object main:
     println("Field Access Map")
     println(fieldAccessMap)
 
-    //println("The result of method One in object A is :" + Object("A", invokeMethod("One")).classOperation)
-    //println("The result of method One in object A is :" + Object("A",invokeMethod("three")).classOperation)
+    println("The result of method One in object A is :" + Object("new Object", invokeMethod("One")).classOperation)
+    println("The result of method One in object A is :" + Object("new Object",invokeMethod("three")).classOperation)
     /*
     //assign is used to assign the BooleanExpression to the logicGate1
     assign(LogicGate("logicGate1"),XOR(Value(true),input_Value(LogicGate("logicGate1"),"A"))).eval

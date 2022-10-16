@@ -25,12 +25,13 @@ object BooleanOperations:
       case Input(name: String)
       case get_Field_Object(name_object : String,name_field: String)
       case get_Method_Object(name_object : String,name_field: String)
+      case set_Field_Object(name_object : String,name_field: String, value : BooleanExpression)
       case get_Field(name_field: String)
       case set_Field(name : String, value : BooleanExpression)
       case invokeMethod(name_field: String)
       case Field(name : String, access : accessSpecifier, value : BooleanExpression)
       case Method(name : String, access : accessSpecifier, value : List[BooleanExpression])
-      case ClassDef(name : String, fields : List[Field],method : List[Method], inherits : String)
+      case ClassDef(name : String, constructor : List[BooleanExpression],fields : List[Field],method : List[Method], inherits : String)
       case NewObject(name : String, classType : String)
       case printClassMap()
       case Object(name : String, action : BooleanExpression)
@@ -68,8 +69,8 @@ object BooleanOperations:
       case TestGate(gate: LogicGate, value: Boolean)
 
       def classOperation : BooleanExpression = this match
-        case ClassDef(name_class, fields, methods,inherits) =>
-          classMap.put(name_class,ClassDef(name_class, fields, methods,inherits))
+        case ClassDef(name_class, constructor, fields, methods,inherits) =>
+          classMap.put(name_class,ClassDef(name_class, constructor, fields, methods,inherits))
           val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
           val temp_fieldAccessMap: collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
           for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
@@ -89,13 +90,20 @@ object BooleanOperations:
           println(methodMap)
           if !inherits.matches("None") then
             inheritanceMap.put(name_class,inherits)
-          ClassDef(name_class, fields, methods,inherits)
+          ClassDef(name_class,constructor, fields, methods, inherits)
 
         case get_Field_Object(name_object : String,name_field: String) =>
           //val objectType = objectTypeMap.getOrElse(name_object,throw new Exception("Object name not found in "+this))
           val contains = objectFieldMap.getOrElse(name_object,throw new Exception("Object not found in "+this)).getOrElse(name_field,throw new Exception("Field not found in "+name_object))
           contains
-          
+
+        case set_Field_Object(name_object : String,name_field: String, value : BooleanExpression) =>
+          val fields = objectFieldMap.getOrElse(name_object,throw new Exception("Object not found in "+this))
+          println(fields)
+          fields.getOrElse(name_field,throw new Exception("Field not found in "+name_object))
+          value
+
+
         case get_Method_Object(name_object : String,name_method: String) =>
           Object(name_object,invokeMethod(name_method)).classOperation
 
@@ -180,7 +188,7 @@ object BooleanOperations:
           val classType = classMap.getOrElse(classTypeName,throw new Exception("Object Type MisMatch"))
           println(classType)
           classType match
-            case ClassDef(name_class, fields, methods,inherits) =>
+            case ClassDef(name_class,constructor, fields, methods,inherits) =>
               val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
               for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
                 temp_fieldMap.put(name_field, value)
@@ -191,7 +199,7 @@ object BooleanOperations:
               methodListBuffer.clear()
               val inheritedClass = classMap.getOrElse(inherits,"None")
               inheritedClass match
-                case ClassDef(name_inherited_class, fields, inherited_methods,inherits) =>
+                case ClassDef(name_inherited_class,constructor, fields, inherited_methods,inherits) =>
                   val temp_inheritedFieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
                   for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
                     if !(accessSpecifier.private_access==access) then
@@ -205,6 +213,22 @@ object BooleanOperations:
                   methodsList.put(name_inherited_class,list_Methods.toList)
                   objectFieldMap.put(name,temp_fieldMap)
                   objectMethodMap.put(name,methodsList)
+                  for constructor_operation <- constructor do
+                    constructor_operation match
+                      case set_Field(name_field: String, value: BooleanExpression) =>
+                        val fieldsMap = objectFieldMap.getOrElse(name, throw new Exception("Object not created" + constructor_operation))
+                        println("fieldsMap")
+                        println(fieldsMap)
+                  
+
+              for constructor_operation <- constructor do
+                constructor_operation match
+                  case set_Field(name_field: String, value: BooleanExpression) =>
+                    val fieldsMap =objectFieldMap.getOrElse(name,throw new Exception("Object not created"+constructor_operation))
+                    println("fieldsMap")
+                    println(fieldsMap)
+                    
+                    value
               Value(true)
           Value(true)
 
@@ -271,5 +295,5 @@ object BooleanOperations:
 
         case get_Field_Object(name_object : String, name_field : String) =>
           get_Field_Object(name_object, name_field).classOperation.eval
-          
+
 
