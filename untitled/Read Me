@@ -34,6 +34,7 @@ Command : Object(name : String, action : BooleanExpression)
         invokeMethod comand invokes the method using the tables created during the object creation.The methods can be overrided.
         The methods are first checked in the child then it is checked in the base class.
         The private methods of the base class cannot be accessed from the object.
+        The objectMethodMap stores the objectName -> ClassName (Base or Derived) -> List[Methods].This Map acts like a Virtual Dispatch Table.
         
         3.2Getting a Field Value
         Command : get_Field(name_field: String)
