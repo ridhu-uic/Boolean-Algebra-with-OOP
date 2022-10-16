@@ -1,5 +1,6 @@
 import BooleanOperations.BooleanExpression.get_Field_Object
 
+import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Stack}
 
 object BooleanOperations:
@@ -117,7 +118,7 @@ object BooleanOperations:
           else
             throw new Exception("Private Field Cannaot be accessed from parent class.")
         else
-          
+
           throw new Exception("Not Found")
 
 
@@ -161,7 +162,7 @@ object BooleanOperations:
               //val methodsAccess = methodAccessMap.getOrElse(objectType,throw new Exception("Object Type MisMatch"))
               val methodAccess = vptr_own_methods_access.getOrElse(name_method,throw new Exception("Method not Found"))
               if !(methodAccess==accessSpecifier.public_access) then throw new Exception("Methods which are not public cannot be accessed from main")
-              val result = Stack[BooleanExpression]()
+              val result : mutable.Stack[BooleanExpression] = mutable.Stack()
               for m <- method do
                 println("action"+m)
                 m match
@@ -179,7 +180,7 @@ object BooleanOperations:
               val inherited_method = inherited_methods.getOrElse(name_method,throw new Exception("Method not found"))
               val inherited_access = vptr_own_inherited_access.getOrElse(name_method,throw new Exception("Access not found"))
               if inherited_access==accessSpecifier.private_access then throw new Exception("Private method cannot be accessed")
-              val result_inherited = Stack[BooleanExpression]()
+              val result_inherited :  mutable.Stack[BooleanExpression] = mutable.Stack()
               for operation <- inherited_method do
                 println(operation)
                 operation match
