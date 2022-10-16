@@ -45,6 +45,8 @@ object main:
     println("The result of method One in object A is :" + Object("new Object",invokeMethod("three")).classOperation)
 
 
+
+
     //assign is used to assign the BooleanExpression to the logicGate1
     assign(LogicGate("logicGate1"),XOR(Value(true),input_Value(LogicGate("logicGate1"),"A"))).eval
     scope(LogicGate("logicGate1"),Input("A"),Value(true)).eval
