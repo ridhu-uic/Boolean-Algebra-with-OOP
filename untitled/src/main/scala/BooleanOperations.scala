@@ -4,18 +4,30 @@ import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Stack}
 
 object BooleanOperations:
-
+  //The LogicGateMap Stores the LogicGates and their expressions
   val LogicGateMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
+  //The inputGateMap Stores the inputs of the logicGates and their value. LogicGate -> Inputs -> Value
   val inputGateMap: collection.mutable.Map[String, Map[String, Boolean]] = collection.mutable.Map()
+  //The classMap contains the class datatype name and its format
   val classMap: collection.mutable.Map[String, BooleanExpression.ClassDef] = collection.mutable.Map()
+  //The fieldMap stores the fields and their values in each class. ClassName -> Fields -> Values
   val fieldMap : collection.mutable.Map[String,collection.mutable.Map[String,BooleanExpression]] = collection.mutable.Map()
+  //The methodMap stores the fields and their values in each class. ClassName -> methods -> List[Statements]
   val methodMap : collection.mutable.Map[String,collection.mutable.Map[String,List[BooleanExpression]]] = collection.mutable.Map()
+  //The fieldAccessMap stores the fields and their accessSpecifier in each class. ClassName -> Fields -> AccessSpecifier8
   val fieldAccessMap: collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
+  //The methodAccessMap stores the methods and their accessSpecifier in each class. ClassName -> methods -> AccessSpecifier8
   val methodAccessMap: collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
+  //The inheritanceMap stores the class inherited by another class. Base Class-> Derived Class
   val inheritanceMap :  collection.mutable.Map[String,  String] = collection.mutable.Map()
+  //The objectTypeMap stored the dataType of the Object. Object name -> Datatype
   val objectTypeMap :  collection.mutable.Map[String,  String] = collection.mutable.Map()
+  //The objectFieldMap stores the objectName -> FieldName -> Value
   val objectFieldMap : collection.mutable.Map[String,collection.mutable.Map[String,BooleanExpression]] = collection.mutable.Map()
+  //The objectMethodMap stores the objectName -> ClassName (Base or Derived) -> List[Methods].This Map acts like a Virtual Dispatch Table.
   val objectMethodMap : collection.mutable.Map[String,collection.mutable.Map[String,List[String]]] = collection.mutable.Map()
+  
+  //The accessSpecifiers are declared using enum.
   enum accessSpecifier:
     case private_access
     case public_access
@@ -23,7 +35,8 @@ object BooleanOperations:
 
   enum BooleanExpression:
     //Declaring the Boolean Functions
-    case Input(name: String)
+
+    //The following DataTypes are expained in the readMe file.
     case get_Field_Object(name_object : String,name_field: String)
     case get_Method_Object(name_object : String,name_field: String)
     case set_Field_Object(name_object : String,name_field: String, value : BooleanExpression)
@@ -36,6 +49,9 @@ object BooleanOperations:
     case NewObject(name : String, classType : String)
     case Object(name : String, action : BooleanExpression)
 
+    //Used to call input
+    case Input(name: String)
+    //Used to Call LogicGate
     case LogicGate(name: String)
     //The input Value case is used to return the particular input value in the gate
     case input_Value(l: LogicGate, c: String)
@@ -66,9 +82,16 @@ object BooleanOperations:
     //The scopefunction will be improved in the future.
     case scope(gate: LogicGate, inputC: Input, value: BooleanExpression)
 
+    //TestGate is used to compare the value of LogicGate and Expected Value
     case TestGate(gate: LogicGate, value: Boolean)
 
+    //The Function Class Operation is defined to do the operations on class datatype.
     def classOperation : BooleanExpression = this match
+      /*
+      The ClassDef case declared the new class dataType.It stores the fields and Methods of the class.
+      It also stores the dataType which the given class inherits.
+      These functions are done using the corresponding maps.
+      */
       case ClassDef(name_class, constructor, fields, methods,inherits) =>
         classMap.put(name_class,ClassDef(name_class, constructor, fields, methods,inherits))
         val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
@@ -92,10 +115,11 @@ object BooleanOperations:
         inheritanceMap.put(name_class,inherits)
         ClassDef(name_class,constructor, fields, methods, inherits)
 
-
+      //Used to get Method belonging to an object.Its a temporary method.
       case get_Method_Object(name_object : String,name_method: String) =>
         Object(name_object,invokeMethod(name_method))
-
+      //Used to get the Field belonging to an object.While Getting the Field
+      //The corresponding accessSpecifier is also taken care using the Maps Defined Above.
       case get_Field_Object(name_object : String,name_field: String) =>
         //val objectType = objectTypeMap.getOrElse(name_object,throw new Exception("Object name not found in "+this))
         val objectType = objectTypeMap.getOrElse(name_object,throw new Exception("Object not found in "+this))
@@ -121,7 +145,7 @@ object BooleanOperations:
 
           throw new Exception("Not Found")
 
-
+      //Used to set the field belonging to an object.
       case set_Field_Object(name_object : String,name_field: String, value : BooleanExpression) =>
         val fieldsMap = objectFieldMap.getOrElse(name_object, throw new Exception("Object not created" + set_Field_Object(name_object : String,name_field: String, value : BooleanExpression)))
         println("fieldsMap")
@@ -130,7 +154,12 @@ object BooleanOperations:
         println(objectFieldMap)
         value
 
-
+      /*
+      The Object is the datatype designed to do the operations on an object.
+      It contains invoking a method, getting a field and setting a field. 
+      The Child class methods can be invoked if they are public or protected directly from main.The private methods
+      are invoked from the other methods.The base class public and protected methods can be called from the derived class.
+      */
       case Object(name_object: String, action: BooleanExpression) =>
 
         //val className = objectTypeMap.getOrElse(name_object,throw new Exception("Object Type MisMatch"))
@@ -199,10 +228,10 @@ object BooleanOperations:
           case _ =>
             throw new Exception(name_object+" has no action : "+ action)
 
-
-
-
-      //case Method(name: String, value: BooleanExpression)
+      /*
+        The NewObject is used to create the new Object.The corresponding maps of the object is defined during the 
+      The NewObject Call.
+      */
       case NewObject(name: String, classTypeName: String) =>
         objectTypeMap.update(name,classTypeName)
         val classType = classMap.getOrElse(classTypeName,throw new Exception("Object Type MisMatch"))
@@ -262,6 +291,7 @@ object BooleanOperations:
       case _ =>
         Value(false)
 
+    //The Datatype function is used to return the LogicGate and Input Datatype
     def dataType: String = this match
       case Input(name: String) => name
 
