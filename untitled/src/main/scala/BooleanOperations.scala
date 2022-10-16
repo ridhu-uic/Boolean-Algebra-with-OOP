@@ -1,4 +1,6 @@
-import scala.collection.mutable.Stack
+import BooleanOperations.BooleanExpression.get_Field_Object
+
+import scala.collection.mutable.{ListBuffer, Stack}
 
 object BooleanOperations:
 
@@ -9,7 +11,10 @@ object BooleanOperations:
   val methodMap : collection.mutable.Map[String,collection.mutable.Map[String,List[BooleanExpression]]] = collection.mutable.Map()
   val fieldAccessMap: collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
   val methodAccessMap: collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
-
+  val inheritanceMap :  collection.mutable.Map[String,  String] = collection.mutable.Map()
+  val objectTypeMap :  collection.mutable.Map[String,  String] = collection.mutable.Map()
+  val objectFieldMap : collection.mutable.Map[String,collection.mutable.Map[String,BooleanExpression]] = collection.mutable.Map()
+  val objectMethodMap : collection.mutable.Map[String,collection.mutable.Map[String,List[String]]] = collection.mutable.Map()
   enum accessSpecifier:
     case private_access
     case public_access
@@ -29,7 +34,6 @@ object BooleanOperations:
       case NewObject(name : String, classType : String)
       case printClassMap()
       case Object(name : String, action : BooleanExpression)
-
 
       case LogicGate(name: String)
       //The input Value case is used to return the particular input value in the gate
@@ -66,72 +70,143 @@ object BooleanOperations:
       def classOperation : BooleanExpression = this match
         case ClassDef(name_class, fields, methods,inherits) =>
           classMap.put(name_class,ClassDef(name_class, fields, methods,inherits))
-          
+          val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
+          val temp_fieldAccessMap: collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
+          for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
+            temp_fieldMap.update(name_field, value)
+            temp_fieldAccessMap.update(name_field, access)
+
+          fieldMap.update(name_class, temp_fieldMap)
+          fieldAccessMap.update(name_class, temp_fieldAccessMap)
+          println(fieldMap)
+          val temp_methodMap: collection.mutable.Map[String, List[BooleanExpression]] = collection.mutable.Map()
+          val temp_methodAccessMap: collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
+          for Method(name_method: String, access: accessSpecifier, value: List[BooleanExpression]) <- methods do
+            temp_methodMap.update(name_method, value)
+            temp_methodAccessMap.update(name_method, access)
+          methodMap.update(name_class, temp_methodMap)
+          methodAccessMap.update(name_class, temp_methodAccessMap)
+          println(methodMap)
+          if !inherits.matches("None") then
+            inheritanceMap.put(name_class,inherits)
           ClassDef(name_class, fields, methods,inherits)
+
+        case get_Field_Object(name_object : String,name_field: String) =>
+          //val objectType = objectTypeMap.getOrElse(name_object,throw new Exception("Object name not found in "+this))
+          val contains = objectFieldMap.getOrElse(name_object,throw new Exception("Object not found in "+this)).getOrElse(name_field,throw new Exception("Field not found in "+name_object))
+          contains
+          
         case get_Method_Object(name_object : String,name_method: String) =>
           Object(name_object,invokeMethod(name_method)).classOperation
 
-        case Object(name: String, action: BooleanExpression) => action match
+        case Object(name_object: String, action: BooleanExpression) => action match
+          //val className = objectTypeMap.getOrElse(name_object,throw new Exception("Object Type MisMatch"))
           case get_Field(name_field: String) =>
-            val x = fieldMap.get(name)
-            val y =x.get(name_field)
-            println("The value of "+name_field+"in Object "+name+"is :"+y)
-            y
+            val x = objectFieldMap.getOrElse(name_object,throw new Exception("Object Not Found in "+action)).getOrElse(name_field,throw new Exception("Field not found"))
+            x
 
           case set_Field(name_field: String,value : BooleanExpression) =>
             val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map(name_field->value)
-            fieldMap.update(name,temp_fieldMap)
+            objectFieldMap.update(name_object,temp_fieldMap)
             value
-
 
           case invokeMethod(name_method : String) =>
             println(name_method+" method invoked.")
-            val x = methodMap.get(name)
-            val operations = x.get(name_method)
-            val result = Stack[BooleanExpression]()
-            println("operation")
-            println(operations)
-            for operation <-  operations do
-              operation match
-                case get_Field(name_field: String) =>
-                  println(operation)
-                  result.push(Object(name,get_Field(name_field)).classOperation)
-                case invokeMethod(name_method : String) =>
-                  result.push(get_Method_Object(name,name_method).classOperation)
-                case _ =>
-                  result.push(Value(operation.eval))
-            result.top
+            val objectType : String = objectTypeMap.getOrElse(name_object,throw new Exception("Object Type MisMatch"))
+            println("object type :"+objectType)
+            val inheritedType = inheritanceMap.getOrElse(objectType,throw new Exception("Object Type MisMatch"))
+            println(objectMethodMap)
+            val vptr = objectMethodMap.getOrElse(name_object,throw new Exception("Object Type MisMatch"))
+            println("objectMethods")
+            println(vptr)
+            val vptr_own_methods=vptr.getOrElse(objectType,throw new Exception("Object Type MisMatch"))
+            val vptr_inherited_methods=vptr.getOrElse(inheritedType,throw new Exception("Object Type MisMatch"))
+            val vptr_own_methods_access=methodAccessMap.getOrElse(objectType,throw new Exception("Object Type MisMatch"))
+            val vptr_own_inherited_access=methodAccessMap.getOrElse(inheritedType,throw new Exception("Inherited Type Mismatch"))
+            println("vptr_own_methods")
+            println(vptr_own_methods)
+            println("vptr_inherited_methods")
+            println(vptr_inherited_methods)
+            if vptr_own_methods.contains(name_method) then
+              println("In vptr own methods")
+              val method = methodMap.getOrElse(objectType,throw new Exception("Object Type MisMatch")).getOrElse(name_method,throw new Exception("Method not Found"))
+              //val methodsAccess = methodAccessMap.getOrElse(objectType,throw new Exception("Object Type MisMatch"))
+              val methodAccess = vptr_own_methods_access.getOrElse(name_method,throw new Exception("Method not Found"))
+              if !(methodAccess==accessSpecifier.public_access) then throw new Exception("Methods which are not public cannot be accessed from main")
+              val result = Stack[BooleanExpression]()
+              for m <- method do
+                m match
+                  case get_Field(name_field: String) =>
+                    result.push(Object(name_object, get_Field(name_field)).classOperation)
+                  case invokeMethod(name_method: String) =>
+                    result.push(get_Method_Object(name_object, name_method).classOperation)
+                  case _ =>
+                    result.push(Value(m.eval))
+                result.top
+              println("method")
+              println(method)
+            else if vptr_inherited_methods.contains(name_method) then
+              val inherited_methods = methodMap.getOrElse(inheritedType, throw new Exception("Object Type MisMatch"))
+              val inherited_method = inherited_methods.getOrElse(name_method,throw new Exception("Method not found"))
+              val inherited_access = vptr_own_inherited_access.getOrElse(name_method,throw new Exception("Access not found"))
+              if inherited_access==accessSpecifier.private_access then throw new Exception("Private method cannot be accessed")
+              val result_inherited = Stack[BooleanExpression]()
+              for operation <- inherited_method do
+                println(operation)
+                operation match
+                  case get_Field(name_field: String) =>
+                    result_inherited.push(Object(name_object, get_Field(name_field)).classOperation)
+                  case invokeMethod(name_method: String) =>
+                    result_inherited.push(get_Method_Object(name_object, name_method).classOperation)
+                  case _ =>
+                    result_inherited.push(Value(operation.eval))
+                result_inherited.top
+
+
+
+            Value(false)
+            /*
+            if objectMethods.find(name_method) then
+              val methods_found = methodMap.getOrElse(objectType,Map())
+              println("methods found")
+              println(methods_found)
+            Value(false)
+            */
+
 
         //case Method(name: String, value: BooleanExpression)
-        case NewObject(name: String, classType: String) =>
-          val x : Option[BooleanExpression.ClassDef] = classMap.get(classType)
-          println(x)
-          x match
-            case Some(ClassDef(name_class , fields ,methods , inherits )) =>
-              println("classdef matched")
-              println(fields)
+        case NewObject(name: String, classTypeName: String) =>
+          objectTypeMap.update(name,classTypeName)
+          val classType = classMap.getOrElse(classTypeName,throw new Exception("Object Type MisMatch"))
+          println(classType)
+          classType match
+            case ClassDef(name_class, fields, methods,inherits) =>
               val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
-              val temp_fieldAccessMap : collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
-              for Field(name_field: String, access : accessSpecifier, value: BooleanExpression) <- fields do
-                temp_fieldMap.update(name_field, value)
-                temp_fieldAccessMap.update(name_field,access)
-
-              fieldMap.update(name, temp_fieldMap)
-              fieldAccessMap.update(name,temp_fieldAccessMap)
-              println(fieldMap)
-              val temp_methodMap: collection.mutable.Map[String, List[BooleanExpression]] = collection.mutable.Map()
-              val temp_methodAccessMap : collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
-              for Method(name_method: String,access : accessSpecifier, value: List[BooleanExpression]) <- methods do
-                temp_methodMap.update(name_method, value)
-                temp_methodAccessMap.update(name_method,access)
-              methodMap.update(name, temp_methodMap)
-              methodAccessMap.update(name,temp_methodAccessMap)
-              println(methodMap)
-              ClassDef(name_class, fields, methods,inherits)
-
-            case None =>
-              println("ClassType  "+classType+" not Found")
-              Value(false)
+              for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
+                temp_fieldMap.put(name_field, value)
+              val methodListBuffer = new ListBuffer[String]
+              for Method(name_method: String, access: accessSpecifier, value: List[BooleanExpression]) <- methods do
+                methodListBuffer+=name_method
+              val methodsList : collection.mutable.Map[String,List[String]] = collection.mutable.Map(name_class->methodListBuffer.toList)
+              methodListBuffer.clear()
+              val inheritedClass = classMap.getOrElse(inherits,"None")
+              inheritedClass match
+                case ClassDef(name_inherited_class, fields, inherited_methods,inherits) =>
+                  val temp_inheritedFieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
+                  for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
+                    if !(accessSpecifier.private_access==access) then
+                      if !temp_fieldMap.contains(name_field) then
+                        temp_fieldMap.update(name_field, value)
+                  val list_Methods = new ListBuffer[String]
+                  println()
+                  for Method(name_method : String, access_method : accessSpecifier, value_method : List[BooleanExpression]) <- inherited_methods do
+                    Value(true)
+                    list_Methods+=name_method
+                  methodsList.put(name_inherited_class,list_Methods.toList)
+                  objectFieldMap.put(name,temp_fieldMap)
+                  objectMethodMap.put(name,methodsList)
+              Value(true)
+          Value(true)
 
       def dataType: String = this match
         case Input(name: String) => name
@@ -142,10 +217,6 @@ object BooleanOperations:
 
       //Using eval to evaluate the Boolean Functions
       def eval : Boolean = this match
-        case get_Field_Object(name_object: String, name_field: String) =>
-          val x = fieldMap.get(name_object)
-          val y=x.get(name_field)
-          y.eval
         case printClassMap() =>
           println(classMap)
           true
@@ -198,4 +269,7 @@ object BooleanOperations:
           assign(inputC, value, gate.dataType).eval
           true
 
+        case get_Field_Object(name_object : String, name_field : String) =>
+          get_Field_Object(name_object, name_field).classOperation.eval
+          
 

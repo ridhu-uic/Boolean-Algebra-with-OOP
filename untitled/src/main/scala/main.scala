@@ -1,19 +1,47 @@
-import BooleanOperations.{BooleanExpression, LogicGateMap, classMap, inputGateMap, methodMap, fieldMap, accessSpecifier  }
+import BooleanOperations.{BooleanExpression, LogicGateMap, accessSpecifier, classMap, fieldAccessMap, fieldMap, inputGateMap, methodAccessMap, methodMap, objectFieldMap, objectMethodMap}
 import BooleanOperations.BooleanExpression.*
 import BooleanOperations.accessSpecifier.*
+
 import scala.collection.mutable.ListBuffer
 object main:
 
   @main def runIT() : Unit =
-    ClassDef("example",List(Field("A",public_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("A","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",public_access,List(invokeMethod("One"),get_Field("B")))),"None").classOperation
+    ClassDef("example",List(Field("A",private_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",public_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"None").classOperation
+    ClassDef("example 1",List(Field("A1",public_access,Value(false)),Field("B1",private_access,Value(true))),List(Method("two1",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two2",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three3",public_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"example").classOperation
+    println()
+    println()
     println(classMap)
-    NewObject("A","example").classOperation
-    println(classMap)
-    println(methodMap)
-    println(Object("A",get_Field("A")).classOperation)
+    println()
+    println("New Object Creation")
+    NewObject("new Object","example 1").classOperation
+    println()
+    println()
+    println("New Object Creation Done")
+    //NewObject("A","example").classOperation
+    println()
+    println()
+    println("Object Field Map")
+    println(objectFieldMap)
+    println()
+    println()
+    println("Object Method Map")
+    println(objectMethodMap)
+    //println(Object("A",get_Field("A")).classOperation)
     println("method invoking")
-    println("The result of method One in object A is :" + Object("A", invokeMethod("One")).classOperation)
-    println("The result of method One in object A is :" + Object("A",invokeMethod("three")).classOperation)
+    println()
+    println()
+    Object("new Object",invokeMethod("One")).classOperation
+    println()
+    println()
+    println("Method Access Map")
+    println(methodAccessMap)
+    println()
+    println()
+    println("Field Access Map")
+    println(fieldAccessMap)
+
+    //println("The result of method One in object A is :" + Object("A", invokeMethod("One")).classOperation)
+    //println("The result of method One in object A is :" + Object("A",invokeMethod("three")).classOperation)
     /*
     //assign is used to assign the BooleanExpression to the logicGate1
     assign(LogicGate("logicGate1"),XOR(Value(true),input_Value(LogicGate("logicGate1"),"A"))).eval
