@@ -25,7 +25,7 @@ object BooleanOperations:
   //The objectFieldMap stores the objectName -> FieldName -> Value
   val objectFieldMap : collection.mutable.Map[String,collection.mutable.Map[String,BooleanExpression]] = collection.mutable.Map()
   //The objectMethodMap stores the objectName -> ClassName (Base or Derived) -> List[Methods].This Map acts like a Virtual Dispatch Table.
-  val objectMethodMap : collection.mutable.Map[String,collection.mutable.Map[String,List[String]]] = collection.mutable.Map()
+  val objectMethodMap : collection.mutable.Map[String,collection.mutable.Map[String,ListBuffer[String]]] = collection.mutable.Map()
   //parametermap classname->function name->parametername->parameter value
   val methodParametersMap : collection.mutable.Map[String,collection.mutable.Map[String,collection.mutable.Map[String,BooleanExpression]]] = collection.mutable.Map()
   //The accessSpecifiers are declared using enum.
@@ -158,6 +158,7 @@ object BooleanOperations:
               val field = extended_fields.getOrElse(name_field, throw new Exception("Found and Missed"))
               val access = inheritedAccess.getOrElse(name_field, throw new Exception("Found and Missed"))
               if access == accessSpecifier.public_access | access == accessSpecifier.protected_access then
+                println("Field found" + field)
                 field
               else
                 throw new Exception("Private Field Cannaot be accessed from parent class.")
@@ -201,82 +202,565 @@ object BooleanOperations:
                 then throw new Exception("Method parameters are not matching")
 
               val result : mutable.Stack[BooleanExpression] = mutable.Stack()
+              val oBuffer = new ArrayBuffer[BooleanExpression]()
               for m <- method do
-                println("action"+m)
+                println("action     :"+m)
                 m match
                   case get_Field(name_field: String) =>
                     result.push(Object(name_object, get_Field(name_field)).classOperation)
                   case invokeMethod (name_method2: String, parameters : collection.mutable.Map[String,BooleanExpression]) =>
-                    result.push(Object(name_object,invokeMethod (name_method2: String, parameters : collection.mutable.Map[String,BooleanExpression]) ).classOperation)
+                    result.push(Object(name_object,invokeMethod (name_method2: String, parameters : collection.mutable.Map[String,BooleanExpression])).classOperation)
                   case getParameter(name_parameter : String) =>
-                    parameters.getOrElse(name_parameter,throw new Exception("Parameter not found.The parameters found"+parameters.keySet))
+                    result.push(parameters.getOrElse(name_parameter,throw new Exception("Parameter not found.The parameters found"+parameters.keySet)))
                   case NOT(o1) =>
+                    println()
                     o1 match
                       case get_Field(name_field: String) =>
-                        !Object(name_object, get_Field(name_field)).classOperation.eval
+                        result.push(Value(NOT(Object(name_object, get_Field(name_field)).classOperation).eval))
+                        println("The currest result :   "+result.top)
 
                       case Value(v) =>
-                        !v
+                        result.push(Value(NOT(o1).eval))
+                        println("The currest result :   "+result.top)
 
                       case getParameter(name_parameter : String) =>
-                        NOT(parameters.getOrElse(name_parameter,throw new Exception("Parameter not found.The parameters found"+parameters.keySet))).eval
+                        result.push(Value(NOT(parameters.getOrElse(name_parameter,throw new Exception("Parameter not found.The parameters found"+parameters.keySet))).eval))
+                        println("The currest result :   "+result.top)
 
                       case setParameter(name : String, value : BooleanExpression) =>
                         if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are"+parameters.keySet)
                         parameters(name)=value
-                        NOT(value).eval
+                        result.push(Value(NOT(value).eval))
+                        println("The currest result :   "+result.top)
 
                       case invokeMethod(name_field: String, parameters : collection.mutable.Map[String,BooleanExpression]) =>
-                        !Object(name_object,o1).classOperation.eval
+                        result.push(Value(NOT(Object(name_object,o1).classOperation).eval))
+                        println("The currest result :   "+result.top)
+
+                      case _ =>
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        result.push(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
 
                   case AND(o1,o2) =>
-                    val operators = new ArrayBuffer[BooleanExpression]()
                     o1 match
                       case get_Field(name_field: String) =>
-                        operators.append(Object(name_object, get_Field(name_field)).classOperation)
+                        println("printing"+Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
+                        println("printing field"+oBuffer(0))
+
 
                       case Value(v) =>
-                        operators.append(Value(v))
+                        oBuffer.append(o1)
+
 
                       case getParameter(name_parameter: String) =>
-                        operators.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
 
                       case setParameter(name: String, value: BooleanExpression) =>
                         if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
                         parameters(name) = value
-                        operators.append(parameters(name))
+                        oBuffer.append(parameters(name))
+
 
                       case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
-                        operators.append(Object(name_object, o1).classOperation)
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method")=List(o1)
+                        methodAccessMap(objectType)("temp_method")=accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method")=parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object,invokeMethod("temp_method",parameters)).classOperation)
+
+                    println("o1 == "+oBuffer(0))
+
                     o2 match
                       case get_Field(name_field: String) =>
-                        operators.append(Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
+
 
                       case Value(v) =>
-                        operators.append(Value(v))
+                        oBuffer.append(o2)
+
 
                       case getParameter(name_parameter: String) =>
-                        operators.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
 
                       case setParameter(name: String, value: BooleanExpression) =>
                         if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
                         parameters(name) = value
-                        operators.append(parameters(name))
+                        oBuffer.append(parameters(name))
+
 
                       case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
-                        operators.append(Object(name_object, o1).classOperation)
+                        oBuffer.append(Object(name_object, o2).classOperation)
 
-                    result.push(operators(0),operators(1))
-                    
-                    
+                      case _ =>
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == "+oBuffer(1))
+                    result.push(Value(AND(oBuffer(0),oBuffer(1)).eval))
+                    oBuffer.clear()
 
 
+                  case OR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
+                        println("printing field" + oBuffer(0))
 
-                  case _ =>
-                    result.push(Value(m.eval))
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result.push(Value(OR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case XOR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result.push(Value(XOR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case NOR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result.push(Value(NOR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case NAND(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result.push(Value(NAND(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case XNOR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result.push(Value(XNOR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                println("The final result   :"+result.top)
                 result.top
-              println("method")
-              println(method)
             else if vptr_inherited_methods.contains(name_method) then
               val inherited_methods = methodMap.getOrElse(inheritedType, throw new Exception("Object Type MisMatch"))
               val inherited_method = inherited_methods.getOrElse(name_method,throw new Exception("Method not found"))
@@ -288,17 +772,551 @@ object BooleanOperations:
                 println ("Parameters defined in the class definiton " + methodParametersMap.getOrElse(inheritedType, throw new Exception("Inherited Object Type MisMatch")).getOrElse(name_method, throw new Exception("Method not found")).keySet)
                 throw new Exception("Parameters provided and parameters defined are not the same.")
 
-
+              val oBuffer = new ArrayBuffer[BooleanExpression]()
               val result_inherited :  mutable.Stack[BooleanExpression] = mutable.Stack()
-              for operation <- inherited_method do
-                println(operation)
-                operation match
+              for m <- inherited_method do
+                m match
                   case get_Field(name_field: String) =>
                     result_inherited.push(Object(name_object, get_Field(name_field)).classOperation)
-                  case invokeMethod(name_method: String, parameters : collection.mutable.Map[String,BooleanExpression]) =>
-                    result_inherited.push(get_Method_Object(name_object, name_method).classOperation)
-                  case _ =>
-                    result_inherited.push(Value(operation.eval))
+                  case invokeMethod(name_method2: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                    result_inherited.push(Object(name_object, invokeMethod(name_method2: String, parameters: collection.mutable.Map[String, BooleanExpression])).classOperation)
+                  case getParameter(name_parameter: String) =>
+                    result_inherited.push(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                  case NOT(o1) =>
+                    println()
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        result_inherited.push(Value(NOT(Object(name_object, get_Field(name_field)).classOperation).eval))
+                        println("The currest result :   " + result_inherited.top)
+
+                      case Value(v) =>
+                        result_inherited.push(Value(NOT(o1).eval))
+                        println("The currest result :   " + result_inherited.top)
+
+                      case getParameter(name_parameter: String) =>
+                        result_inherited.push(Value(NOT(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet))).eval))
+                        println("The currest result :   " + result_inherited.top)
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        result_inherited.push(Value(NOT(value).eval))
+                        println("The currest result :   " + result_inherited.top)
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        result_inherited.push(Value(NOT(Object(name_object, o1).classOperation).eval))
+                        println("The currest result :   " + result_inherited.top)
+
+                  case AND(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result_inherited.push(Value(AND(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+
+                  case OR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result_inherited.push(Value(OR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case XOR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result_inherited.push(Value(XOR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case NOR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result_inherited.push(Value(NOR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case NAND(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result_inherited.push(Value(NAND(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
+
+                  case XNOR(o1, o2) =>
+                    o1 match
+                      case get_Field(name_field: String) =>
+                        println("printing" + Object(name_object, get_Field(name_field)).classOperation)
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        println("printing field" + oBuffer(0))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o1)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+                        println()
+                        println(oBuffer(0))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o1).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o1 == " + oBuffer(0))
+
+                    o2 match
+                      case get_Field(name_field: String) =>
+                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+
+
+                      case Value(v) =>
+                        oBuffer.append(o2)
+
+
+                      case getParameter(name_parameter: String) =>
+                        oBuffer.append(parameters.getOrElse(name_parameter, throw new Exception("Parameter not found.The parameters found" + parameters.keySet)))
+
+
+                      case setParameter(name: String, value: BooleanExpression) =>
+                        if !parameters.contains(name) then throw new Exception("Parameter not found.Parameters found are" + parameters.keySet)
+                        parameters(name) = value
+                        oBuffer.append(parameters(name))
+
+
+                      case invokeMethod(name_field: String, parameters: collection.mutable.Map[String, BooleanExpression]) =>
+                        oBuffer.append(Object(name_object, o2).classOperation)
+
+                      case _ =>
+                        println("Do nothing")
+                        Value(true)
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o2)
+
+                        oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+                    println("o2 == " + oBuffer(1))
+                    result_inherited.push(Value(XNOR(oBuffer(0), oBuffer(1)).eval))
+                    oBuffer.clear()
                 result_inherited.top
 
 
@@ -324,8 +1342,12 @@ object BooleanOperations:
             val methodListBuffer = new ListBuffer[String]
             for Method(name_method: String, access: accessSpecifier,parameters : collection.mutable.Map[String,BooleanExpression], value: List[BooleanExpression]) <- methods do
               methodListBuffer+=name_method
-            val methodsList : collection.mutable.Map[String,List[String]] = collection.mutable.Map(name_class->methodListBuffer.toList)
-            methodListBuffer.clear()
+            val methodsList : collection.mutable.Map[String,ListBuffer[String]] = collection.mutable.Map(name_class->methodListBuffer)
+            println()
+            println()
+            println("method List")
+            println(methodsList)
+            println()
             if inherits!="None" then
               val inheritedClass = classMap.getOrElse(inherits,"None")
               inheritedClass match
@@ -337,7 +1359,18 @@ object BooleanOperations:
                   println()
                   for Method(name_method : String, access_method : accessSpecifier,parameters : collection.mutable.Map[String,BooleanExpression], value_method : List[BooleanExpression]) <- inherited_methods do
                     list_Methods+=name_method
-                  methodsList.put(name_inherited_class,list_Methods.toList)
+
+                  println()
+                  println()
+                  println("method List")
+                  println(methodsList)
+                  println()
+                  methodsList.put(name_inherited_class,list_Methods)
+                  println()
+                  println()
+                  println("method List")
+                  println(methodsList)
+                  println()
                   objectFieldMap.put(name,temp_fieldMap)
                   objectMethodMap.put(name,methodsList)
                   for constructor_operation <- constructor do
@@ -429,9 +1462,6 @@ object BooleanOperations:
         println("case scope")
         assign(inputC, value, gate.dataType).eval
         true
-
-      case get_Field_Object(name_object : String, name_field : String) =>
-        get_Field_Object(name_object, name_field).classOperation.eval
 
       case _ =>
         false

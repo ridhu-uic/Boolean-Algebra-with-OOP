@@ -17,11 +17,16 @@ object main:
       List(set_Field("A1",Value(true))),
       List(Field("A1",protected_access,Value(false)),
         Field("B1",private_access,Value(true))),
-      List(Method("two1",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field("B")))),
-        Method("two2",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(XOR(NOT(Value(true)),Value(true)))),
+      List(Method("two1",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(NOT(Value(false)),NOT(get_Field("B")),NOT(getParameter("A")),NOT(setParameter("A",Value(true))))),
+        Method("two2",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(AND(NOT(Value(true)),Value(true)),AND(get_Field("B"),getParameter("A")))),
         Method("And test",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(AND(NOT(Value(true)),Value(true)))),
-        Method("three3",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(invokeMethod("One",parameters = collection.mutable.Map("A"->Value(true))),get_Field("B1")))),
+        Method("three3",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(invokeMethod("One",parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true))),XOR(NOT(Value(true)),Value(true)),AND(AND(Value(true),NOT(NAND(Value(false),OR(Value(true),Value(false))))),NOT(Value(false))),get_Field("B1")))),
       "example").classOperation
+
+
+
+
+
     println()
     println()
     println(classMap)
@@ -31,36 +36,62 @@ object main:
     println()
     println()
     println("New Object Creation Done")
-    NewObject("A","example").classOperation
-
     println()
     println()
-    println("Object Field Map")
-    println(objectFieldMap)
-    println()
-    println()
-    println("Object Method Map")
     println(objectMethodMap)
-    //println(Object("A",get_Field("A")).classOperation)
-    println("method invoking")
     println()
     println()
-    Object("new Object",invokeMethod("One",parameters = collection.mutable.Map("A"->Value(false),"B"->Value(true)))).classOperation
-    println()
-    println()
-    println("Method Access Map")
-    println(methodAccessMap)
-    println()
-    println()
-    println("Field Access Map")
-    println(fieldAccessMap)
 
-    println("The result of method One in object A is :" + Object("new Object", invokeMethod("One",parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)))).classOperation)
-    println("The result of method One in object A is :" + Object("new Object",invokeMethod("three",parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)))).classOperation)
+    Object("new Object", invokeMethod("two1", parameters = collection.mutable.Map("A" -> Value(false), "B" -> Value(true)))).classOperation
+
+    println()
+    println()
+    println("two2 calling")
+    Object("new Object", invokeMethod("two2", parameters = collection.mutable.Map("A" -> Value(false), "B" -> Value(true)))).classOperation
+
+    println("three3 calling")
+    Object("new Object", invokeMethod("three3", parameters = collection.mutable.Map("A" -> Value(false), "B" -> Value(true)))).classOperation
+
+    println()
+    println()
+    println("One calling")
+    Object("new Object", invokeMethod("One", parameters = collection.mutable.Map("A" -> Value(false), "B" -> Value(true)))).classOperation
 
 
 
 
+
+/*
+NewObject("A","example").classOperation
+
+println()
+println()
+println("Object Field Map")
+println(objectFieldMap)
+println()
+println()
+println("Object Method Map")
+println(objectMethodMap)
+//println(Object("A",get_Field("A")).classOperation)
+println("method invoking")
+println()
+println()
+Object("new Object",invokeMethod("One",parameters = collection.mutable.Map("A"->Value(false),"B"->Value(true)))).classOperation
+println()
+println()
+println("Method Access Map")
+println(methodAccessMap)
+println()
+println()
+println("Field Access Map")
+println(fieldAccessMap)
+
+println("The result of method One in object A is :" + Object("new Object", invokeMethod("One",parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)))).classOperation)
+println("The result of method One in object A is :" + Object("new Object",invokeMethod("three",parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)))).classOperation)
+*/
+
+
+  /*
     //assign is used to assign the BooleanExpression to the logicGate1
     assign(LogicGate("logicGate1"),XOR(Value(true),input_Value(LogicGate("logicGate1"),"A"))).eval
     scope(LogicGate("logicGate1"),Input("A"),Value(true)).eval
@@ -97,3 +128,4 @@ object main:
     // False must be returned as the value of C is false but the expected mentioned in TestGate is true
     println(TestGate(LogicGate("logicGate4"),true).eval)
     println(gate_Value(LogicGate("logicGate4")).eval)
+    */
