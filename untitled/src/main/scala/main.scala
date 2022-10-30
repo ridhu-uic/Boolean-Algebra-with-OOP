@@ -6,8 +6,22 @@ import scala.collection.mutable.ListBuffer
 object main:
 
   @main def runIT() : Unit =
-    ClassDef("example",List(set_Field("A",Value(true))),List(Field("A",private_access,Value(false)),Field("B",public_access,Value(true))),List(Method("One",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three",public_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"None").classOperation
-    ClassDef("example 1",List(set_Field("A1",Value(true))),List(Field("A1",protected_access,Value(false)),Field("B1",private_access,Value(true))),List(Method("two1",public_access,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field_Object("new Object","B")))),Method("two2",public_access,List(XOR(NOT(Value(true)),Value(true)))),Method("three3",public_access,List(invokeMethod("One"),get_Field_Object("new Object","B")))),"example").classOperation
+    ClassDef("example",List(set_Field("A",Value(true))),
+      List(Field("A",private_access,Value(false)),
+        Field("B",public_access,Value(true))),
+      List(Method("One",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field("B")))),
+        Method("two",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(XOR(NOT(Value(true)),Value(true)))),
+        Method("three",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(invokeMethod("One",parameters = collection.mutable.Map("A"->Value(true))),get_Field("B")))),
+      "None").classOperation
+    ClassDef("example 1",
+      List(set_Field("A1",Value(true))),
+      List(Field("A1",protected_access,Value(false)),
+        Field("B1",private_access,Value(true))),
+      List(Method("two1",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(XOR(NOT(Value(false)),Value(true)),NOT(get_Field("B")))),
+        Method("two2",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(XOR(NOT(Value(true)),Value(true)))),
+        Method("And test",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(AND(NOT(Value(true)),Value(true)))),
+        Method("three3",public_access,parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)) ,List(invokeMethod("One",parameters = collection.mutable.Map("A"->Value(true))),get_Field("B1")))),
+      "example").classOperation
     println()
     println()
     println(classMap)
@@ -31,7 +45,7 @@ object main:
     println("method invoking")
     println()
     println()
-    Object("new Object",invokeMethod("One")).classOperation
+    Object("new Object",invokeMethod("One",parameters = collection.mutable.Map("A"->Value(false),"B"->Value(true)))).classOperation
     println()
     println()
     println("Method Access Map")
@@ -41,8 +55,8 @@ object main:
     println("Field Access Map")
     println(fieldAccessMap)
 
-    println("The result of method One in object A is :" + Object("new Object", invokeMethod("One")).classOperation)
-    println("The result of method One in object A is :" + Object("new Object",invokeMethod("three")).classOperation)
+    println("The result of method One in object A is :" + Object("new Object", invokeMethod("One",parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)))).classOperation)
+    println("The result of method One in object A is :" + Object("new Object",invokeMethod("three",parameters = collection.mutable.Map("A"->Value(true),"B"->Value(true)))).classOperation)
 
 
 
