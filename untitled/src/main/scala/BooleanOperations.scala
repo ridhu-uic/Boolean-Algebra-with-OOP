@@ -10,6 +10,17 @@ object BooleanOperations:
   val inputGateMap: collection.mutable.Map[String, Map[String, Boolean]] = collection.mutable.Map()
   //The classMap contains the class datatype name and its format
   val classMap: collection.mutable.Map[String, BooleanExpression.ClassDef] = collection.mutable.Map()
+
+  //Class type  : checks if the class is abstract or not
+  val classTypeMap : collection.mutable.Map[String, Boolean] = collection.mutable.Map()
+  val interfaceFieldMap: collection.mutable.Map[String, collection.mutable.Map[String, BooleanExpression]] = collection.mutable.Map()
+  val interfaceFieldAccessMap : collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
+  //interfaceMethods: interfaceName -> MethodName.
+  val interfaceMethodMap: collection.mutable.Map[String, ListBuffer[String]] = collection.mutable.Map()
+  //intereface -> methodAccess -> accessSpecifier
+  val interfaceMethodAccessMap: collection.mutable.Map[String, collection.mutable.Map[String, accessSpecifier]] = collection.mutable.Map()
+  //parametermap interface->function name->parametername->parameter value
+  val interfaceMethodParametersMap: collection.mutable.Map[String, collection.mutable.Map[String, collection.mutable.Map[String, BooleanExpression]]] = collection.mutable.Map()
   //The fieldMap stores the fields and their values in each class. ClassName -> Fields -> Values
   val fieldMap : collection.mutable.Map[String,collection.mutable.Map[String,BooleanExpression]] = collection.mutable.Map()
   //The methodMap stores the fields and their values in each class. ClassName -> methods -> List[Statements]
@@ -49,13 +60,11 @@ object BooleanOperations:
     case getParameter(name : String)
     case Field(name : String, access : accessSpecifier, value : BooleanExpression)
     case Method(name : String, access : accessSpecifier, parameters : collection.mutable.Map[String, BooleanExpression], value : List[BooleanExpression])
-    case ClassDef(name : String, constructor : List[BooleanExpression],fields : List[Field],method : List[Method], inherits : String)
+    case ClassDef(name : String, isAbstract: Boolean , constructor : List[BooleanExpression],fields : List[Field],method : List[Method], inherits : String, implements : List[String])
     case NewObject(name : String, classType : String)
     case Object(name : String, action : BooleanExpression)
-
-
-
-
+    case abstractMethod()
+    case interface(name : String,fields : List[Field],method : List[Method], inherits : List[String])
 
     //Used to call input
     case Input(name: String)
@@ -100,8 +109,68 @@ object BooleanOperations:
       It also stores the dataType which the given class inherits.
       These functions are done using the corresponding maps.
       */
-      case ClassDef(name_class, constructor, fields, methods,inherits) =>
-        classMap.put(name_class,ClassDef(name_class, constructor, fields, methods,inherits))
+      case interface(name_interface : String,fields : List[Field],method : List[Method], inherits : List[String]) =>
+        val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
+        val temp_fieldAccessMap: collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
+        for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
+          temp_fieldMap.update(name_field, value)
+          temp_fieldAccessMap.update(name_field, access)
+
+        if inherits!=List("None") then
+          for interfaceInherited <- inherits do
+            temp_fieldMap.++(interfaceFieldMap.getOrElse(interfaceInherited,throw new Exception("Interface not found")))
+            temp_fieldAccessMap.++(interfaceFieldAccessMap.getOrElse(interfaceInherited,throw new Exception("Interface not found")))
+        interfaceFieldMap.update(name_interface, temp_fieldMap)
+        interfaceFieldAccessMap.update(name_interface, temp_fieldAccessMap)
+
+        val temp_methodMap = new ListBuffer[String]
+        val temp_methodAccessMap: collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
+        val temp_methodParameterMap: collection.mutable.Map[String, collection.mutable.Map[String, BooleanExpression]] = collection.mutable.Map()
+        for Method(name_method: String, access: accessSpecifier, parameters: collection.mutable.Map[String, BooleanExpression], value: List[BooleanExpression]) <- method do
+          temp_methodMap+=name_method
+          temp_methodAccessMap.update(name_method, access)
+          temp_methodParameterMap.update(name_method, parameters)
+
+        if inherits != List("None") then
+          for interfaceInherited <- inherits do
+            val methodList =interfaceMethodMap.getOrElse(interfaceInherited, throw new Exception("Interface not found"))
+            val accessMap =interfaceMethodAccessMap.getOrElse(interfaceInherited, throw new Exception("Interface not found"))
+            val parameterMap =interfaceMethodParametersMap.getOrElse(interfaceInherited, throw new Exception("Interface not found"))
+
+            for methodsinherited <- methodList do
+              if temp_methodMap.contains(methodsinherited) then throw new Exception("Ambiguity due to same signature of methods")
+              else
+                temp_methodMap+=methodsinherited
+                val methodAccess=accessMap.getOrElse(methodsinherited,throw new Exception("Method Access not found for "+methodsinherited))
+                temp_methodAccessMap.update(methodsinherited,methodAccess)
+                val methodParameter=parameterMap.getOrElse(methodsinherited,throw new Exception("Method Parameter not found for"+methodsinherited))
+                temp_methodParameterMap.update(methodsinherited,methodParameter)
+
+        interfaceMethodMap.update(name_interface,temp_methodMap)
+        interfaceMethodAccessMap.update(name_interface,temp_methodAccessMap)
+        interfaceMethodParametersMap.update(name_interface,temp_methodParameterMap)
+
+
+
+
+        interfaceMethodMap.update(name_interface,temp_methodMap)
+        interfaceMethodAccessMap.update(name_interface,temp_methodAccessMap)
+        interfaceMethodParametersMap.update(name_interface,temp_methodParameterMap)
+
+        println("interface Method Parameters")
+        println(interfaceMethodParametersMap)
+        println()
+        println("interface Method Map")
+        println(interfaceMethodMap)
+        println()
+        println("interface Method Access")
+        println(interfaceMethodAccessMap)
+        Value(true)
+
+
+
+      case ClassDef(name_class,isAbstract, constructor, fields, methods,inherits, implements ) =>
+        classMap.put(name_class,ClassDef(name_class, isAbstract,constructor, fields, methods,inherits,implements))
         val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
         val temp_fieldAccessMap: collection.mutable.Map[String, accessSpecifier] = collection.mutable.Map()
         for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
@@ -124,7 +193,17 @@ object BooleanOperations:
         println(methodMap)
 
         inheritanceMap.put(name_class,inherits)
-        ClassDef(name_class,constructor, fields, methods, inherits)
+        classTypeMap.put(name_class,isAbstract)
+        if implements != List("None") then
+          for implement <- implements do
+            val list_methods = interfaceMethodMap.getOrElse(implement,throw new Exception("Interface not found"))
+            for method_interface <- list_methods do
+              if !temp_methodMap.contains(method_interface) then throw new Exception("Method not overriden in the class which is present in interface"+method_interface)
+
+
+
+
+        ClassDef(name_class,isAbstract,constructor, fields, methods, inherits, implements)
 
       //Used to get Method belonging to an object.Its a temporary method.
       /*
@@ -136,14 +215,16 @@ object BooleanOperations:
       case Object(name_object: String, action: BooleanExpression) =>
 
         //val className = objectTypeMap.getOrElse(name_object,throw new Exception("Object Type MisMatch"))
+        val objectType: String = objectTypeMap.getOrElse(name_object, throw new Exception("Object Type MisMatch"))
+        val inheritedType = inheritanceMap.getOrElse(objectType, throw new Exception("Object Type MisMatch"))
+
+
         println()
         println(name_object+" doing action : "+ action)
         println()
         action match
           case get_Field(name_field: String) =>
             //val objectType = objectTypeMap.getOrElse(name_object,throw new Exception("Object name not found in "+this))
-            val objectType = objectTypeMap.getOrElse(name_object, throw new Exception("Object not found in " + this))
-            val inheritedType = inheritanceMap.getOrElse(objectType, throw new Exception("Object Type MisMatch"))
             val own_fields = fieldMap.getOrElse(objectType, throw new Exception("Own fields not found for" + objectType))
             val extended_fields = fieldMap.getOrElse(inheritedType, throw new Exception("Own fields not found for" + objectType))
             val inheritedAccess = fieldAccessMap.getOrElse(inheritedType, throw new Exception("Own fields not found for" + objectType))
@@ -176,8 +257,7 @@ object BooleanOperations:
 
           case invokeMethod(name_method : String, parameters : collection.mutable.Map[String,BooleanExpression]) =>
             println(name_method+" method invoked.")
-            val objectType : String = objectTypeMap.getOrElse(name_object,throw new Exception("Object Type MisMatch"))
-            val inheritedType = inheritanceMap.getOrElse(objectType,throw new Exception("Object Type MisMatch"))
+
             println("object   :")
             println()
             println(objectMethodMap)
@@ -242,7 +322,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -384,7 +464,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -423,7 +503,7 @@ object BooleanOperations:
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -453,7 +533,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -468,7 +548,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -495,7 +575,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -508,7 +588,7 @@ object BooleanOperations:
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -538,7 +618,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -553,7 +633,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -580,7 +660,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -593,7 +673,7 @@ object BooleanOperations:
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -623,7 +703,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -638,7 +718,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -665,7 +745,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -708,7 +788,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -723,7 +803,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -750,7 +830,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -758,6 +838,9 @@ object BooleanOperations:
                     println("o2 == " + oBuffer(1))
                     result.push(Value(XNOR(oBuffer(0), oBuffer(1)).eval))
                     oBuffer.clear()
+
+                  case _ =>
+                    throw new Exception("Method match not found")
 
                 println("The final result   :"+result.top)
                 result.top
@@ -807,11 +890,28 @@ object BooleanOperations:
                         result_inherited.push(Value(NOT(Object(name_object, o1).classOperation).eval))
                         println("The currest result :   " + result_inherited.top)
 
+                      case _ =>
+                        /*
+                        create a temporary method
+                        */
+
+                        objectMethodMap(name_object)(objectType).append("temp_method")
+                        methodMap(objectType)("temp_method") = List(o1)
+                        methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
+                        methodParametersMap(objectType)("temp_method") = parameters
+                        println(methodMap)
+                        println()
+                        println()
+                        println(objectMethodMap)
+                        println()
+                        result_inherited.push(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
+
+
                   case AND(o1, o2) =>
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -942,7 +1042,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -969,7 +1069,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -982,7 +1082,7 @@ object BooleanOperations:
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -1012,7 +1112,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -1027,7 +1127,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -1054,7 +1154,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -1067,7 +1167,7 @@ object BooleanOperations:
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -1097,7 +1197,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -1112,7 +1212,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -1139,7 +1239,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -1152,7 +1252,7 @@ object BooleanOperations:
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -1182,7 +1282,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -1197,7 +1297,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -1224,7 +1324,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -1237,7 +1337,7 @@ object BooleanOperations:
                     o1 match
                       case get_Field(name_field: String) =>
                         println("printing" + Object(name_object, get_Field(name_field)).classOperation)
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
                         println("printing field" + oBuffer(0))
 
 
@@ -1267,7 +1367,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o1)
                         methodAccessMap(objectType)("temp_method") = accessSpecifier.public_access
                         methodParametersMap(objectType)("temp_method") = parameters
@@ -1282,7 +1382,7 @@ object BooleanOperations:
 
                     o2 match
                       case get_Field(name_field: String) =>
-                        oBuffer.append((Object(name_object, get_Field(name_field)).classOperation))
+                        oBuffer.append(Object(name_object, get_Field(name_field)).classOperation)
 
 
                       case Value(v) =>
@@ -1309,7 +1409,7 @@ object BooleanOperations:
                         create a temporary method
                         */
 
-                        objectMethodMap.get(name_object).get(objectType).append("temp_method")
+                        objectMethodMap(name_object)(objectType).append("temp_method")
                         methodMap(objectType)("temp_method") = List(o2)
 
                         oBuffer.append(Object(name_object, invokeMethod("temp_method", parameters)).classOperation)
@@ -1317,6 +1417,9 @@ object BooleanOperations:
                     println("o2 == " + oBuffer(1))
                     result_inherited.push(Value(XNOR(oBuffer(0), oBuffer(1)).eval))
                     oBuffer.clear()
+
+                  case _ =>
+                    throw new Exception("Method match not found")
                 result_inherited.top
 
 
@@ -1333,9 +1436,10 @@ object BooleanOperations:
       case NewObject(name: String, classTypeName: String) =>
         objectTypeMap.update(name,classTypeName)
         val classType = classMap.getOrElse(classTypeName,throw new Exception("Object Type MisMatch"))
-        println(classType)
+         println(classType)
         classType match
-          case ClassDef(name_class,constructor, fields, methods,inherits) =>
+          case ClassDef(name_class,isAbstract,constructor, fields, methods,inherits, implements ) =>
+            if classTypeMap.getOrElse(name_class, "Class type not found") == true then throw new Exception("Object cannot be created for abstract class")
             val temp_fieldMap: collection.mutable.Map[String, BooleanExpression] = collection.mutable.Map()
             for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
               temp_fieldMap.put(name_field, value)
@@ -1350,8 +1454,9 @@ object BooleanOperations:
             println()
             if inherits!="None" then
               val inheritedClass = classMap.getOrElse(inherits,"None")
+              val isInheritedAbstract = classTypeMap.getOrElse(inherits, throw new Exception("inherited type not found in abstract classes"))
               inheritedClass match
-                case ClassDef(name_inherited_class,constructor, fields, inherited_methods,inherits) =>
+                case ClassDef(name_inherited_class,isAbstract,constructor, fields, inherited_methods,inherits, implements ) =>
                   for Field(name_field: String, access: accessSpecifier, value: BooleanExpression) <- fields do
                       if !temp_fieldMap.contains(name_field) then
                         temp_fieldMap.update(name_field, value)
@@ -1359,6 +1464,14 @@ object BooleanOperations:
                   println()
                   for Method(name_method : String, access_method : accessSpecifier,parameters : collection.mutable.Map[String,BooleanExpression], value_method : List[BooleanExpression]) <- inherited_methods do
                     list_Methods+=name_method
+
+                  if isInheritedAbstract  then
+                    println("Is Inherited Abstract")
+                    for inheritedAbstractMethod <- list_Methods do
+                      if !methodsList.get(name_class).contains(inheritedAbstractMethod) then throw new Exception("Abstract method is not overrided by the derived class")
+
+
+
 
                   println()
                   println()
