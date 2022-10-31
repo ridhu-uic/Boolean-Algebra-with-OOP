@@ -204,6 +204,7 @@ object BooleanOperations:
 
 
         ClassDef(name_class,isAbstract,constructor, fields, methods, inherits, implements)
+        Value(true)
 
       //Used to get Method belonging to an object.Its a temporary method.
       /*
