@@ -36,13 +36,13 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
         Method("three3", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), List("None")
     ).classOperation==Value(true))
 
-   assert(interface("hello 2", List(Field("A1", protected_access, Value(false)),
-     Field("B1", private_access, Value(true))),
-     List(Method("hello21", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-       Method("hello212", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-       Method("hello213", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-       Method("hello214", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), List("hello")
-   ).classOperation==Value(true))
+     assert(interface("hello 2", List(Field("A1", protected_access, Value(false)),
+       Field("B1", private_access, Value(true))),
+       List(Method("hello21", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+         Method("hello212", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+         Method("hello213", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+         Method("hello214", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), List("hello")
+     ).classOperation==Value(true))
   }
 
 
