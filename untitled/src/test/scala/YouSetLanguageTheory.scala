@@ -36,13 +36,13 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
         Method("three3", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), List("None")
     ).classOperation==Value(true))
 
- assert(interface("hello 2", List(Field("A1", protected_access, Value(false)),
-   Field("B1", private_access, Value(true))),
-   List(Method("hello21", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-     Method("hello212", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-     Method("hello213", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-     Method("hello214", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), List("hello")
- ).classOperation==Value(true))
+   assert(interface("hello 2", List(Field("A1", protected_access, Value(false)),
+     Field("B1", private_access, Value(true))),
+     List(Method("hello21", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+       Method("hello212", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+       Method("hello213", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+       Method("hello214", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), List("hello")
+   ).classOperation==Value(true))
   }
 
 
@@ -129,14 +129,14 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
         Method("And test", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
         Method("three3", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))),
       "example", implements = List("None")).classOperation
-  assert(ClassDef("example 2", false,
-  List(set_Field("A1", Value(true))),
-  List(Field("A1", protected_access, Value(false)),
-    Field("B1", private_access, Value(true))),
-  List(Method("two1", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(NOT(Value(false)), NOT(get_Field("B")), NOT(getParameter("A")), NOT(setParameter("A", Value(true))))),
-    Method("two2", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(AND(NOT(Value(true)), Value(true)), AND(get_Field("B"), getParameter("A")))),
-    Method("three3", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(invokeMethod("One", parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true))), XOR(NOT(Value(true)), Value(true)), AND(AND(Value(true), NOT(NAND(Value(false), OR(Value(true), Value(false))))), NOT(Value(false))), get_Field("B1")))),
-  "abstract class 1", implements = List("None")).classOperation==Value(true))
+    assert(ClassDef("example 2", false,
+    List(set_Field("A1", Value(true))),
+    List(Field("A1", protected_access, Value(false)),
+      Field("B1", private_access, Value(true))),
+    List(Method("two1", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(NOT(Value(false)), NOT(get_Field("B")), NOT(getParameter("A")), NOT(setParameter("A", Value(true))))),
+      Method("two2", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(AND(NOT(Value(true)), Value(true)), AND(get_Field("B"), getParameter("A")))),
+      Method("three3", public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(invokeMethod("One", parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true))), XOR(NOT(Value(true)), Value(true)), AND(AND(Value(true), NOT(NAND(Value(false), OR(Value(true), Value(false))))), NOT(Value(false))), get_Field("B1")))),
+    "abstract class 1", implements = List("None")).classOperation==Value(true))
   }
 
 
