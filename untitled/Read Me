@@ -9,16 +9,20 @@ In this assignment, concepts of object oriented Language such as
         3.Invoking Methods and Fields of both Base and Derived Class
         4.Concept of Inheritance and Access Specifiers
                 is implemented.
+        5.Concept of Abstract Class
+        6.Concept of Interfaces
 
 1.Defining a Class with fields,methods and constructor
-Command : ClassDef(name : String, constructor : List[BooleanExpression],fields : List[Field],method : List[Method], inherits : String)
+Command : ClassDef(name : String, isAbstract : Boolean, constructor : List[BooleanExpression],fields : List[Field],method : List[Method], inherits : String, implements : List[String])
         The ClassDef command is used to create a class Datatype. 
         'name' represents the name of the datatype.
+        'isAbstract' if true, it means it is a abstract class. else it is a non abstract class
         'constructor' takes list of BooleanExpressions which are used to set the fields.It is called when an object is created.
         'fields' is a List of basic datatype Field. The Field has 'name', 'access specifier' (private,protected,public) and 'value'(BooleanExpression)
         'method' is a List of basic datatype Method. The Field has 'name', 'access specifier' (private,protected,public) and 'value' List(BooleanExpression).
                 The methods take List of Boolean Expressions and evaluate them.
         'inherits' is a String used to inherit another class datatype with the given name.
+        'implements' is List of String which holds the string of interfaces that can be implemented to the class.
         
 2.Creation of an Object for the Class
 Command : NewObject(name : String, classType : String)
@@ -49,9 +53,14 @@ Command : Object(name : String, action : BooleanExpression)
 The check for cyclic inheritance will be added in future.The access Specifiers help to restict the usage of the parent class methods and fields in the child class.
 The private cannot be accessed by the child class.Protected can be accessed through the methods and Public can be accessed by the objects and methods of the child class.
 
-5.Currently get_Method_Object, set_Field_Object and get_Field_Object are used in the methods to operate on the fields and methods. They take the inputs object name and
-   member name.
-This will be rectified in future build by adding the 'this' keyword.
+5.Concepts of Abstract Class 
+The abstract Class implements is like any non abstract class with isAbstarct equal to true.The methods in the abstract class has to overridden in the derived class orelse an exception
+is thrown by the compiler.An object cannot be created for the abstract class.
+
+6.Concept of Interfaces
+Interfaces are new datatype, it holds fields, methods and list of interfaces which can be extended by the interface.The interfaces cannot have same method signature, if given 
+the compiler throws and ambiguity error.
+      
 
 
 How to Install and Run the package
