@@ -105,10 +105,6 @@ object Sets_Classes:
         temp_fieldMap.update(name_field, value)
         temp_fieldAccessMap.update(name_field, access)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
   //TestGate is used to test if the value of the logicgate is as expected
   def TestGate(gate : LogicGate,expected : Boolean) : Boolean =
     logicGateStack.push(gate.name)
@@ -409,9 +405,5 @@ object Sets_Classes:
         throw new Exception("Matching case not found under operate.")
 
   @main def runIT(): Unit =
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
     println(Sets_Classes)
