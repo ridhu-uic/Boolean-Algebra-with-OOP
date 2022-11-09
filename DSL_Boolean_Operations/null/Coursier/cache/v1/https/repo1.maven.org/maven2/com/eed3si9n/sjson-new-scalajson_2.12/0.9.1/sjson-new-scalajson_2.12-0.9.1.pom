@@ -10,22 +10,22 @@
     <licenses>
         <license>
             <name>Apache 2</name>
-<<<<<<< HEAD
+
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-=======
+
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
             <distribution>repo</distribution>
         </license>
     </licenses>
     <name>sjson-new-scalajson</name>
     <organization>
         <name>eed3si9n</name>
-<<<<<<< HEAD
+
         <url>https://eed3si9n.com/</url>
-=======
+
         <url>http://eed3si9n.com/</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
     </organization>
     <scm>
         <url>https://github.com/eed3si9n/sjson-new</url>

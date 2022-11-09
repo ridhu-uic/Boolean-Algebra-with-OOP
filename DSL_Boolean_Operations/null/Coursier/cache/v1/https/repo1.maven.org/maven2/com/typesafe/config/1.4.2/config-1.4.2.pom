@@ -28,11 +28,11 @@
             <id>havocp</id>
             <name>Havoc Pennington</name>
             <email>@havocp</email>
-<<<<<<< HEAD
+
             <url>https://ometer.com/</url>
-=======
+
             <url>http://ometer.com/</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
         </developer>
     </developers>
     <dependencies>

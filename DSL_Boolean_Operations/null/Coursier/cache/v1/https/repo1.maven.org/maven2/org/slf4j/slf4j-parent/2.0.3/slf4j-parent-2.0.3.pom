@@ -11,30 +11,30 @@
   <packaging>pom</packaging>
   <name>SLF4J</name>
   <description>Top SLF4J project pom.xml file</description>
-<<<<<<< HEAD
+
   <url>https://www.slf4j.org</url>
 
   <organization>
     <name>QOS.ch</name>
     <url>https://www.qos.ch</url>
-=======
+
   <url>http://www.slf4j.org</url>
 
   <organization>
     <name>QOS.ch</name>
     <url>http://www.qos.ch</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
   </organization>
   <inceptionYear>2005</inceptionYear>
 
   <licenses>
     <license>
       <name>MIT License</name>
-<<<<<<< HEAD
+
       <url>https://www.opensource.org/licenses/mit-license.php</url>
-=======
+
       <url>http://www.opensource.org/licenses/mit-license.php</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
       <distribution>repo</distribution>
     </license>
   </licenses>

@@ -10,22 +10,22 @@
     <licenses>
         <license>
             <name>Apache 2</name>
-<<<<<<< HEAD
+
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-=======
+
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
             <distribution>repo</distribution>
         </license>
     </licenses>
     <name>ipcsocket</name>
     <organization>
         <name>sbt</name>
-<<<<<<< HEAD
+
         <url>https://scala-sbt.org/</url>
-=======
+
         <url>http://scala-sbt.org/</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
     </organization>
     <scm>
         <url>https://github.com/sbt/ipcsocket</url>
