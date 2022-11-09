@@ -7,11 +7,19 @@
   <version>3.4.2</version>
   <name>Disruptor Framework</name>
   <description>Disruptor - Concurrent Programming Framework</description>
+<<<<<<< HEAD
   <url>https://lmax-exchange.github.com/disruptor</url>
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
       <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+=======
+  <url>http://lmax-exchange.github.com/disruptor</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+>>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
       <distribution>repo</distribution>
     </license>
   </licenses>

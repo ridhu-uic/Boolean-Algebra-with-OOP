@@ -17,7 +17,11 @@
 
 -->
 
+<<<<<<< HEAD
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+=======
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+>>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.fusesource</groupId>
@@ -32,16 +36,27 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+<<<<<<< HEAD
   <url>https://fusesource.com/</url>
   <organization>
     <name>FuseSource, Corp.</name>
     <url>https://fusesource.com/</url>
+=======
+  <url>http://fusesource.com/</url>
+  <organization>
+    <name>FuseSource, Corp.</name>
+    <url>http://fusesource.com/</url>
+>>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
   </organization>
 
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
+<<<<<<< HEAD
       <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+=======
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+>>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -62,7 +77,11 @@
   <scm>
     <connection>scm:git:git://forge.fusesource.com/mvnplugins.git</connection>
     <developerConnection>scm:git:ssh://git@forge.fusesource.com/mvnplugins.git</developerConnection>
+<<<<<<< HEAD
     <url>https://github.com/chirino/mvnplugins/tree/master</url>
+=======
+    <url>http://github.com/chirino/mvnplugins/tree/master</url>
+>>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
     <tag>HEAD</tag>
   </scm>
 
@@ -72,7 +91,11 @@
       <id>geeks</id>
       <name>FuseSource Development Team</name>
       <organization>FuseSource</organization>
+<<<<<<< HEAD
       <organizationUrl>https://fusesource.com/</organizationUrl>
+=======
+      <organizationUrl>http://fusesource.com/</organizationUrl>
+>>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
     </developer>
   </developers>
 
