@@ -16,11 +16,11 @@
   <name>SLF4J API Module</name>
   <description>The slf4j API</description>
 
-<<<<<<< HEAD
+
   <url>https://www.slf4j.org</url>
-=======
+
   <url>http://www.slf4j.org</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
 
   <properties>
     <module-name>org.slf4j</module-name>

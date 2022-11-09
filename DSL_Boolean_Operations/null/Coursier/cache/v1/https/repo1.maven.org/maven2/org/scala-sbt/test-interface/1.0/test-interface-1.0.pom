@@ -10,11 +10,11 @@
     <organization>
         <name>org.scala-sbt</name>
     </organization>
-<<<<<<< HEAD
+
     <url>https://www.scala-sbt.org</url>
-=======
+
     <url>http://www.scala-sbt.org</url>
->>>>>>> 9cea2fbefbf278e49f1c38e285b5282fcf27c88c
+
     <licenses>
         <license>
             <name>BSD</name>
