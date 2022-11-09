@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -36,7 +36,7 @@
         <slf4j-version>1.6.1</slf4j-version>
     </properties>
 
-    <url>http://fusesource.github.io/jansi</url>
+    <url>https://fusesource.github.io/jansi</url>
     <inceptionYear>2009</inceptionYear>
 
     <issueManagement>
@@ -47,14 +47,14 @@
     <mailingLists>
         <mailingList>
             <name>Discussion List</name>
-            <archive>http://groups.google.com/group/jansi</archive>
+            <archive>https://groups.google.com/group/jansi</archive>
             <post>jansi-dev@googlegroups.com</post>
             <subscribe>jansi-dev+subscribe@googlegroups.com</subscribe>
             <unsubscribe>jansi-dev+unsubscribe@googlegroups.com</unsubscribe>
         </mailingList>
         <mailingList>
             <name>Commits and Issue Tracker List</name>
-            <archive>http://groups.google.com/group/jansi-commits</archive>
+            <archive>https://groups.google.com/group/jansi-commits</archive>
             <post>jansi-commits@googlegroups.com</post>
             <subscribe>jansi-commits+subscribe@googlegroups.com</subscribe>
             <unsubscribe>jansi-commisots+unsubscribe@googlegroups.com</unsubscribe>
@@ -64,7 +64,7 @@
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -105,7 +105,7 @@
             <id>chirino</id>
             <name>Hiram Chirino</name>
             <email>hiram@hiramchirino.com</email>
-            <url>http://hiramchirino.com</url>
+            <url>https://hiramchirino.com</url>
             <timezone>GMT-5</timezone>
         </developer>
         <developer>

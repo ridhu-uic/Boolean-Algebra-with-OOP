@@ -7,12 +7,12 @@
   <version>1.0.3</version>
   <name>reactive-streams</name>
   <description>A Protocol for Asynchronous Non-Blocking Data Sequence</description>
-  <url>http://www.reactive-streams.org/</url>
+  <url>https://www.reactive-streams.org/</url>
   <inceptionYear>2014</inceptionYear>
   <licenses>
     <license>
       <name>CC0</name>
-      <url>http://creativecommons.org/publicdomain/zero/1.0/</url>
+      <url>https://creativecommons.org/publicdomain/zero/1.0/</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -20,7 +20,7 @@
     <developer>
       <id>reactive-streams-sig</id>
       <name>Reactive Streams SIG</name>
-      <url>http://www.reactive-streams.org/</url>
+      <url>https://www.reactive-streams.org/</url>
     </developer>
   </developers>
   <scm>

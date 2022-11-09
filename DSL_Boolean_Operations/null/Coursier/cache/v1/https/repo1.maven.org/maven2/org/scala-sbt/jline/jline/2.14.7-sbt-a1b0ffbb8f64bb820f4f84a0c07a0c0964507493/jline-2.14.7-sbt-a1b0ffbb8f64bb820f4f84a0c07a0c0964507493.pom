@@ -10,7 +10,7 @@
     <licenses>
         <license>
             <name>The BSD License</name>
-            <url>http://www.opensource.org/licenses/bsd-license.php</url>
+            <url>https://www.opensource.org/licenses/bsd-license.php</url>
             <distribution>repo</distribution>
         </license>
     </licenses>

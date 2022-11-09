@@ -10,7 +10,7 @@
     <licenses>
         <license>
             <name>Apache 2.0</name>
-            <url>http://opensource.org/licenses/Apache-2.0</url>
+            <url>https://opensource.org/licenses/Apache-2.0</url>
             <distribution>repo</distribution>
         </license>
     </licenses>

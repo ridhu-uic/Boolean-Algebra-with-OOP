@@ -20,13 +20,13 @@
     <packaging>pom</packaging>
 
     <name>Sonatype OSS Parent</name>
-    <url>http://nexus.sonatype.org/oss-repository-hosting.html</url>
+    <url>https://nexus.sonatype.org/oss-repository-hosting.html</url>
     <description>Sonatype helps open source projects to set up Maven repositories on https://oss.sonatype.org/</description>
 
     <scm>
-        <connection>scm:svn:http://svn.sonatype.org/spice/trunk/oss/oss-parenti-9</connection>
+        <connection>scm:svn:https://svn.sonatype.org/spice/trunk/oss/oss-parenti-9</connection>
         <developerConnection>scm:svn:https://svn.sonatype.org/spice/trunk/oss/oss-parent-9</developerConnection>
-        <url>http://svn.sonatype.org/spice/trunk/oss/oss-parent-9</url>
+        <url>https://svn.sonatype.org/spice/trunk/oss/oss-parent-9</url>
     </scm>
 
     <repositories>

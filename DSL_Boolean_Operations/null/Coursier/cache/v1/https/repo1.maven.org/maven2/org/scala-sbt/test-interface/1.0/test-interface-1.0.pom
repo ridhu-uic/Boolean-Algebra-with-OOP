@@ -10,7 +10,7 @@
     <organization>
         <name>org.scala-sbt</name>
     </organization>
-    <url>http://www.scala-sbt.org</url>
+    <url>https://www.scala-sbt.org</url>
     <licenses>
         <license>
             <name>BSD</name>

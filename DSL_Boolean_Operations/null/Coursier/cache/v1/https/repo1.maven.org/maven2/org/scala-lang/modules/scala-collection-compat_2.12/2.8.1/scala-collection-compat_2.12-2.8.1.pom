@@ -5,7 +5,7 @@
     <artifactId>scala-collection-compat_2.12</artifactId>
     <packaging>jar</packaging>
     <description>scala-collection-compat</description>
-    <url>http://www.scala-lang.org/</url>
+    <url>https://www.scala-lang.org/</url>
     <version>2.8.1</version>
     <licenses>
         <license>
@@ -18,7 +18,7 @@
     <inceptionYear>2002</inceptionYear>
     <organization>
         <name>org.scala-lang.modules</name>
-        <url>http://www.scala-lang.org/</url>
+        <url>https://www.scala-lang.org/</url>
     </organization>
     <scm>
         <url>https://github.com/scala/scala-collection-compat</url>

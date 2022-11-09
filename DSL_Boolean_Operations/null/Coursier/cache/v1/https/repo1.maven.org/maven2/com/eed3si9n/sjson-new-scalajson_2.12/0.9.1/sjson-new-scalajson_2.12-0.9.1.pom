@@ -10,14 +10,14 @@
     <licenses>
         <license>
             <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
     <name>sjson-new-scalajson</name>
     <organization>
         <name>eed3si9n</name>
-        <url>http://eed3si9n.com/</url>
+        <url>https://eed3si9n.com/</url>
     </organization>
     <scm>
         <url>https://github.com/eed3si9n/sjson-new</url>

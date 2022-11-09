@@ -27,12 +27,12 @@
 
     <name>Root Parent Pom</name>
     <description>This root parent pom is used by all of OpenHft</description>
-    <url>http://chronicle.software</url>
+    <url>https://chronicle.software</url>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
 

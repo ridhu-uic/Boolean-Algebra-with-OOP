@@ -28,7 +28,7 @@
             <id>havocp</id>
             <name>Havoc Pennington</name>
             <email>@havocp</email>
-            <url>http://ometer.com/</url>
+            <url>https://ometer.com/</url>
         </developer>
     </developers>
     <dependencies>

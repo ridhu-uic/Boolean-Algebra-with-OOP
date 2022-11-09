@@ -7,5 +7,5 @@ lazy val root = (project in file("."))
     name := "BooleanOperations"
   )
 
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.13"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.13" % "test"
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test"
