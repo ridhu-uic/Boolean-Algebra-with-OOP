@@ -1,4 +1,4 @@
-import Sets_Classes.*
+import Sets_Classes.{logicGateStack, *}
 import Sets_Classes.BooleanExpression.{NOT, Value, XOR, *}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -8,8 +8,178 @@ import scala.collection.immutable.List
 class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
   behavior of "my first language for set theory operations"
 
-  it should "Throw an exception because class does not override a method in the interface inherited by the implemented interface" in {
+  it should "throw an exception because user did not define the exception" in  {
     assert(interface("Shape", List(Field("x", accessSpecifier.protected_access, Value(false)),
+      Field("y", accessSpecifier.private_access, Value(true))),
+      List(Method("Rectangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("Square", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("Circle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("Triangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), null
+    ).operate.eval)
+
+    assert(interface("Car1", List(Field("Oil", accessSpecifier.protected_access, Value(false)),
+      Field("Gear", accessSpecifier.private_access, Value(true))),
+      List(Method("GetOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+      ), List("Shape")
+    ).operate.eval)
+
+    assert(ClassDef("Car_Animation1", false, List(set_Field("Car", Value(true))),
+      List(Field("Car", accessSpecifier.private_access, Value(false)),
+        Field("Shape", accessSpecifier.public_access, Value(true))),
+      List(Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(false)), Value(true)), NOT(getParameter("B")))),
+        Method("GetOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(true)), Value(true)))),
+        Method("Rectangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(invokeMethod("PutOil", parameters = collection.mutable.Map("A" -> Value(true))), get_Field("B"))),
+        Method("Square", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(false)), Value(true)), NOT(get_Field("B")))),
+        Method("Circle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(true)), Value(true)))),
+        Method("Triangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(invokeMethod("PutOil", parameters = collection.mutable.Map("A" -> Value(true))), setParameter("B", Value(true))))),
+
+      null, implements = List("Car1")).operate.eval)
+
+    assert(NewObject("Mcqueen", "Car_Animation1").operate.eval)
+
+    assertThrows[Exception](scope2("Testing", {
+      CatchException(
+        name = "No Oil",
+        block = {
+          PRINT(NOT(Value(false))).operate
+
+          IF(Object("Mcqueen", invokeMethod("GetOil", collection.mutable.Map("A" -> Value(true), "B" -> Value(true)))).operate.eval)
+          THEN(throwException("No Oil").operate)
+          PRINT(NOT(Value(false))).operate
+          PRINT(NOT(Value(false))).operate
+          println(exceptionStack.top)
+          PRINT(NOT(Value(false))).operate
+
+
+        },
+
+        catchBlock = Catch("No Oil", PRINT(Value(true)).operate, reason = Reason("Add petrol"))
+      )
+      Value(true)
+    }))
+
+  }
+
+  it should "Testing scope2" in {
+    assert(interface("ShaperC", List(Field("x", accessSpecifier.protected_access, Value(false)),
+      Field("y", accessSpecifier.private_access, Value(true))),
+      List(Method("Rectangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("Square", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("Circle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("Triangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))), null
+    ).operate.eval)
+
+    assert(interface("Carnival", List(Field("Oil", accessSpecifier.protected_access, Value(false)),
+      Field("Gear", accessSpecifier.private_access, Value(true))),
+      List(Method("GetOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+        Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
+      ), List("ShaperC")
+    ).operate.eval)
+
+    assert(ClassDef("Car_Animation1O", false, List(set_Field("Car", Value(true))),
+      List(Field("Car", accessSpecifier.private_access, Value(false)),
+        Field("Shape", accessSpecifier.public_access, Value(true))),
+      List(Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(false)), Value(true)), NOT(getParameter("B")))),
+        Method("GetOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(true)), Value(true)))),
+        Method("Rectangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(invokeMethod("PutOil", parameters = collection.mutable.Map("A" -> Value(true))), get_Field("B"))),
+        Method("Square", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(false)), Value(true)), NOT(get_Field("B")))),
+        Method("Circle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(true)), Value(true)))),
+        Method("Triangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(invokeMethod("PutOil", parameters = collection.mutable.Map("A" -> Value(true))), setParameter("B", Value(true))))),
+
+      null, implements = List("Carnival")).operate.eval)
+
+    assert(NewObject("McqueenGirl", "Car_Animation1O").operate.eval)
+    exceptionClassDef(name ="No Oil", reason = Reason("Add Oil")).operate
+
+    assert(scope2("Testing", {
+      CatchException(
+        name = "No Oil",
+        block = {
+          PRINT(NOT(Value(false))).operate
+
+          IF(Object("McqueenGirl",invokeMethod("GetOil",collection.mutable.Map("A" -> Value(true), "B" -> Value(true)))).operate.eval)
+          THEN(throwException("No Oil").operate)
+          PRINT(NOT(Value(false))).operate
+          PRINT(NOT(Value(false))).operate
+          println(exceptionStack.top)
+          PRINT(NOT(Value(false))).operate
+
+
+        },
+
+        catchBlock = Catch("No Oil",PRINT(Value(true)).operate,reason=Reason("Add petrol"))
+      )
+      Value(true)
+    }))
+  }
+
+
+  it should "Testing While" in {
+
+
+    assert(ClassDef("Car_Animation1D", false, List(set_Field("Car", Value(true))),
+      List(Field("Car", accessSpecifier.private_access, Value(false)),
+        Field("Shape", accessSpecifier.public_access, Value(true))),
+      List(Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true)), List(Value(true))),
+        Method("GetOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(true)), Value(true))))),
+      null, implements = null).operate.eval)
+
+    assert(NewObject("Mcqueen New", "Car_Animation1D").operate.eval)
+
+    logicGateStack.push("H")
+    logicGateStack.push("A")
+    logicGateStack.push("L")
+    logicGateStack.push("L")
+
+    assert {
+      WHILE(logicGateStack.nonEmpty ,{
+      logicGateStack.pop
+      Object("Mcqueen New",invokeMethod("PutOil",collection.mutable.Map("A" -> Value(true)))).operate
+      }
+    )
+    }
+  }
+
+
+
+  it should "Throw an error of misplaced if while Using IF ELSE IF and ELSE" in {
+    assert {
+      IF(NOT(Value(false)).eval)
+    }
+    println(ifExeStack.top)
+    println(ifStack.top)
+    assert(THEN({
+      PRINT(Value(true)).operate
+      PRINT(Value(true)).operate
+      PRINT(Value(true)).operate
+    }))
+
+    println(ifExeStack.isEmpty)
+    println(ifStack.top)
+
+    assert(ELSEIF(Value(true).eval))
+    assertThrows[Exception](ELSE(Value(true)))
+
+  }
+
+
+  it should "Using IF ELSE IF and ELSE" in {
+    assert{IF(NOT(Value(false)).eval)}
+    println(ifExeStack.top)
+    println(ifStack.top)
+    assert(THEN({
+      PRINT(Value(true)).operate
+      PRINT(Value(true)).operate
+      PRINT(Value(true)).operate
+    }))
+
+  }
+
+
+
+  it should "Throw an exception because class does not override a method in the interface inherited by the implemented interface" in {
+    assert(interface("Shaper", List(Field("x", accessSpecifier.protected_access, Value(false)),
       Field("y", accessSpecifier.private_access, Value(true))),
       List(Method("Rectangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
         Method("Square", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
@@ -21,7 +191,7 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
       Field("Gear", accessSpecifier.private_access, Value(true))),
       List(Method("GetOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
         Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-      ), List("Shape")
+      ), List("Shaper")
     ).operate.eval)
 
     assertThrows[Exception](ClassDef("Car_Animation", false, List(set_Field("Car", Value(true))),
@@ -40,7 +210,7 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
   }
 
   it should "Create two interfaces and Implement it in a class" in {
-    assert(interface("Shape1", List(Field("x", accessSpecifier.protected_access, Value(false)),
+    assert(interface("ShaperN", List(Field("x", accessSpecifier.protected_access, Value(false)),
       Field("y", accessSpecifier.private_access, Value(true))),
       List(Method("Rectangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
         Method("Square", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
@@ -48,14 +218,14 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
         Method("Triangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod()))),null
     ).operate.eval)
 
-    assert(interface("Car1", List(Field("Oil", accessSpecifier.protected_access, Value(false)),
+    assert(interface("Cargo", List(Field("Oil", accessSpecifier.protected_access, Value(false)),
       Field("Gear", accessSpecifier.private_access, Value(true))),
       List(Method("GetOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
         Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(abstractMethod())),
-          ), List("Shape")
+          ), List("ShaperN")
     ).operate.eval)
 
-    assert(ClassDef("Car_Animation1", false, List(set_Field("Car", Value(true))),
+    assert(ClassDef("Car_Animation1T", false, List(set_Field("Car", Value(true))),
       List(Field("Car", accessSpecifier.private_access, Value(false)),
         Field("Shape", accessSpecifier.public_access, Value(true))),
       List(Method("PutOil", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(false)), Value(true)), NOT(getParameter("B")))),
@@ -65,9 +235,9 @@ class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
       Method("Circle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(XOR(NOT(Value(true)), Value(true)))),
       Method("Triangle", accessSpecifier.public_access, parameters = collection.mutable.Map("A" -> Value(true), "B" -> Value(true)), List(invokeMethod("PutOil", parameters = collection.mutable.Map("A" -> Value(true))), setParameter("B",Value(true))))),
 
-      null, implements = List("Car1")).operate.eval)
+      null, implements = List("Cargo")).operate.eval)
 
-    assert(NewObject("Mcqueen","Car_Animation1").operate.eval)
+    assert(NewObject("McqueenMan","Car_Animation1T").operate.eval)
 
   }
 
