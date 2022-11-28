@@ -48,6 +48,8 @@ object Sets_Classes:
   //caughtList stores the caught exceptions
   val caughtList : collection.mutable.ListBuffer[String]  = collection.mutable.ListBuffer[String]()
   //Input is used hold the name of the input to the logicGate.
+  val env : collection.mutable.Map[String,Boolean] = collection.mutable.Map("A"->true)
+  val mapOxStack: collection.mutable.Stack[BooleanExpression] = collection.mutable.Stack()
   case class Input(name: String)
   //LogicGate is used hold the name of logicGate.
   case class LogicGate(name: String)
@@ -118,7 +120,7 @@ object Sets_Classes:
   //ifStack and ifExecStack are used to define if then else if and else statements in order.
   //resultStack stores the result of the operation.
   val ifStack : collection.mutable.Stack[ifVal] = collection.mutable.Stack[ifVal]()
-  val ifExeStack, resultStack : collection.mutable.Stack[Boolean] = collection.mutable.Stack[Boolean]()
+  val ifExeStack : collection.mutable.Stack[Boolean] = collection.mutable.Stack[Boolean]()
 
   //ifVal is the enum used to store the latest control condition executed.
   enum ifVal:
@@ -185,6 +187,23 @@ object Sets_Classes:
       statements
       WHILE(condition,statements)
     true
+
+  def matchCase(x : BooleanExpression) : BooleanExpression =
+    x match
+      case BooleanExpression.Variable(name) =>
+        try {
+
+          BooleanExpression.Value(env.getOrElse(name, throw new Exception("contains not works properly")))
+        } catch {
+          case foo: Exception =>
+            BooleanExpression.Variable(name)
+          case bar: RuntimeException =>
+            BooleanExpression.Variable(name)
+        }
+
+      case _ =>
+        x.operate
+  
   enum BooleanExpression:
     //Cases for creating and managing classes, objects, interfaces, exceptions with names related to their actual function.
     case get_Field(name_field: String)
@@ -205,6 +224,10 @@ object Sets_Classes:
     case interface(name: String, fields: List[Field], method: List[Method], inherits: List[String])
 
     //Declaring the Boolean Functions with their names related to their actual operation
+
+    val resultStack : collection.mutable.Stack[Boolean] = collection.mutable.Stack[Boolean]()
+
+    case Variable(name : String)
     case input(state : String)
     case Value(v: Boolean)
     case gate_Value(l: LogicGate)
@@ -220,34 +243,37 @@ object Sets_Classes:
 
     case PRINT(statement : BooleanExpression)
 
-
     //Using function eval to evaluate the Boolean Functions declared under BooleanExpression.
     def eval: Boolean =
-      //empty Stack implies there are no exceptions, so the operations can be executed.
+    //empty Stack implies there are no exceptions, so the operations can be executed.
       if exceptionStack.isEmpty then
         this match
-        case Value(x: Boolean) => resultStack.push(x)
-        case NOT(o1) => resultStack.push(!o1.eval)
-        case OR(o1,o2) => resultStack.push(o1.eval | o2.eval)
-        case AND(o1, o2) => resultStack.push(o1.eval & o2.eval)
-        case NAND(o1, o2) => resultStack.push(!(o1.eval & o2.eval))
-        case NOR(o1, o2) => resultStack.push(!(o1.eval | o2.eval))
-        case XOR(o1, o2) => resultStack.push(o1.eval ^ o2.eval)
-        case XNOR(o1, o2) => resultStack.push(!(o1.eval ^ o2.eval))
-        case input(c : String) => resultStack.push(inputGateMap(logicGateStack.top)(c).eval)
-        case gate_Value(gate: LogicGate) =>
-          logicGateStack.push(gate.name)
-          val result = logicGateMap.getOrElse(gate.name,throw new Exception(gate.name)).eval
-          logicGateStack.pop
-          resultStack.push(result)
-        case _ => throw new Exception("Matching case not found under eval.")
-        val evalResult =resultStack.top
+          case Value(x: Boolean) => resultStack.push(x)
+
+          case NOT(o1) => resultStack.push(!o1.eval)
+          case OR(o1, o2) => resultStack.push(o1.eval | o2.eval)
+          case AND(o1, o2) => resultStack.push(o1.eval & o2.eval)
+          case NAND(o1, o2) => resultStack.push(!(o1.eval & o2.eval))
+          case NOR(o1, o2) => resultStack.push(!(o1.eval | o2.eval))
+          case XOR(o1, o2) => resultStack.push(o1.eval ^ o2.eval)
+          case XNOR(o1, o2) => resultStack.push(!(o1.eval ^ o2.eval))
+          case input(c: String) => resultStack.push(inputGateMap(logicGateStack.top)(c).eval)
+          case gate_Value(gate: LogicGate) =>
+            logicGateStack.push(gate.name)
+            val result = logicGateMap.getOrElse(gate.name, throw new Exception(gate.name)).eval
+            logicGateStack.pop
+            resultStack.push(result)
+          case _ => throw new Exception("Matching case not found under eval.")
+
+        val evalResult = resultStack.top
         resultStack.clear()
         evalResult
 
+
+
       else
         this match
-          case _ => false
+          case _ => throw new Exception("Exception Exists")
 
 
 
@@ -257,16 +283,52 @@ object Sets_Classes:
       //The BooleanFunctions are again rewritten to support the operations of the boolean functions
       //with operate function.
       if exceptionStack.isEmpty then
+        val resStack: collection.mutable.Stack[BooleanExpression] = collection.mutable.Stack()
         this match
 
           case Value(x: Boolean) => Value(x)
-          case NOT(o1) => Value(!o1.operate.eval)
-          case OR(o1, o2) => Value(o1.operate.eval | o2.operate.eval)
-          case AND(o1, o2) => Value(o1.operate.eval & o2.operate.eval)
-          case NAND(o1, o2) => Value(!(o1.operate.eval & o2.operate.eval))
-          case NOR(o1, o2) => Value(!(o1.operate.eval | o2.operate.eval))
-          case XOR(o1, o2) => Value(o1.operate.eval ^ o2.operate.eval)
-          case XNOR(o1, o2) => Value(!(o1.operate.eval ^ o2.operate.eval))
+          case Variable(name : String) => matchCase(Variable(name))
+          case NOT(o1) =>
+            val tempX = matchCase(o1)
+            NOT(tempX).map
+
+          case OR(a1, a2) =>
+            val tempX = matchCase(a1)
+            val tempY = matchCase(a2)
+            OR(tempX,tempY).map
+
+          case AND(o1, o2) =>
+            val tempX = matchCase(o1)
+            val tempY = matchCase(o2)
+            AND(tempX,tempY).map
+
+          case NAND(o1, o2) =>
+            val tempX = matchCase(o1)
+            val tempY = matchCase(o2)
+            NAND(tempX,tempY).map
+
+          case NOR(o1, o2) =>
+            val tempX = matchCase(o1)
+            val tempY = matchCase(o2)
+            NOR(tempX,tempY).map
+
+            /* just for reference
+            tempX match
+              case Value(x) =>
+                tempY match
+                  case Value(y) => resStack.push(Value(!(tempX.operate.eval | tempY.operate.eval)))
+                  case _ => resStack.push(NOR(tempX, tempY))
+              case _ => resStack.push(NOR(tempX, tempY))
+            resStack.top*/
+          case XOR(o1, o2) =>
+            val tempX = matchCase(o1)
+            val tempY = matchCase(o2)
+            XOR(tempX,tempY).map
+
+          case XNOR(o1, o2) =>
+            val tempX = matchCase(o1)
+            val tempY = matchCase(o2)
+            XNOR(tempX,tempY).map
           case gate_Value(l: LogicGate) => Value(gate_Value(l).eval)
           case PRINT(statement : BooleanExpression) =>
             println(statement)
@@ -507,5 +569,113 @@ object Sets_Classes:
             else
               Value(false)
           case _ => null
+
+    def map : BooleanExpression =
+      this match
+        case NOT(o1 : BooleanExpression) =>
+          if o1 == Value(true) then
+            Value(false)
+          else if o1 == Value(false) then
+            Value(true)
+          else
+            NOT(o1)
+        case OR(o1: BooleanExpression, o2: BooleanExpression) =>
+          if o1 == Value(true) then
+            Value(true)
+          else if o1 == Value(false) then
+            if o2 == Value(false) then
+              Value(false)
+            else
+              o2
+          else
+            if o2 == Value(true) then
+              Value(true)
+            else if o2 == Value(false) then
+              o1
+            else
+              OR(o1,o2)
+
+        case AND(o1: BooleanExpression, o2: BooleanExpression) =>
+          if o1 == Value(false) then
+            Value(false)
+          else if o1 == Value(true) then
+            if o2 == Value(true) then
+              Value(true)
+            else
+              o2
+          else
+            if o2 == Value(false) then
+              Value(false)
+            else if o2 == Value(true) then
+              o1
+            else
+              AND(o1, o2)
+
+        case NAND(o1: BooleanExpression, o2: BooleanExpression) =>
+          if o1 == Value(false) then
+            Value(true)
+          else if o1 == Value(true) then
+            if o2 == Value(true) then
+              Value(false)
+            else
+              NOT(o2).map
+          else
+            if o2 == Value(false) then
+              Value(true)
+            else if o2 == Value(true) then
+              NOT(o1).map
+            else
+              NAND(o1, o2)
+
+        case NOR(o1: BooleanExpression, o2: BooleanExpression) =>
+          if o1 == Value(true) then
+            Value(false)
+          else if o1 == Value(false) then
+            if o2 == Value(false) then
+              Value(true)
+            else
+              NOT(o2).map
+          else if o2 == Value(true) then
+            Value(false)
+          else if o2 == Value(false) then
+            NOT(o1).map
+          else
+            NOR(o1, o2)
+
+        case XOR(o1: BooleanExpression, o2: BooleanExpression) =>
+          if o1 == Value(false) then
+            o2
+          else if o1 == Value(true) then
+            NOT(o2).map
+          else
+            if o2 == Value(false) then
+              o1
+            else if o2 == Value(true) then
+              NOT(o1).map
+            else
+              XOR(o1, o2)
+
+        case XNOR(o1: BooleanExpression, o2: BooleanExpression) =>
+          if o1 == Value(false) then
+            NOT(o2).map
+          else if o1 == Value(true) then
+            o2
+          else if o2 == Value(false) then
+            NOT(o1).map
+          else if o2 == Value(true) then
+            o1
+          else
+            XNOR(o1, o2)
+
+        case _ => throw new Exception("Match not found in map def")
+
+
+
+
+
+
+
+
   @main def runIT(): Unit =
     println(Sets_Classes)
+    println(env.getOrElse("A",throw new Exception("contains not works properly")))

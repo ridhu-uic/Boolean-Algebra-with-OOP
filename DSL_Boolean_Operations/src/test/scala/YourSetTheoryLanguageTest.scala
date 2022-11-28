@@ -8,6 +8,34 @@ import scala.collection.immutable.List
 class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
   behavior of "my first language for set theory operations"
 
+  it should "compute much more compound expressions" in {
+    assert(XOR(NOT(NOT(Variable("B"))),NAND(NOT(Variable("A")), OR(Value(true), AND(Value(false), Variable("B"))))).operate ==  NOT(NOT(NOT(Variable("B")))))
+  }
+
+  it should "compute compound expressions" in {
+    assert(NAND(NOT(Variable("A")),OR(Value(true),AND(Value(false),Variable("B")))).operate==Value(true))
+  }
+
+  it should "compute and assert the truth table of NAND GATE" in {
+    assert(NAND(Variable("A"), Variable("B")).operate == NOT(Variable("B"))) //"A" -> true
+    assert(XNOR(Value(false), Variable("B")).operate == NOT(Variable("B")))
+    assert(XNOR(Value(false), Value(false)).operate == Value(true))
+  }
+
+  it should "compute and assert the truth table of XNOR GATE" in {
+    assert(XNOR(Variable("A"), Variable("B")).operate == Variable("B")) //"A" -> true
+    assert(XNOR(Value(false), Variable("B")).operate == NOT(Variable("B")))
+    assert(XNOR(Value(false), Value(false)).operate == Value(true))
+  }
+
+  it should "compute and assert the truth table of OR GATE" in {
+    assert(OR(Variable("A"),Variable("B")).operate==Value(true))  //"A" -> true
+    assert(OR(Value(false),Variable("B")).operate==Variable("B"))
+    assert(OR(Value(false),Value(false)).operate==Value(false))
+  }
+
+
+
   it should "throw an exception because user did not define the exception" in  {
     assert(interface("Shape", List(Field("x", accessSpecifier.protected_access, Value(false)),
       Field("y", accessSpecifier.private_access, Value(true))),
