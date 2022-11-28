@@ -1,4 +1,4 @@
-\## **LogicGates and Boolean Expressions**
+## **LogicGates and Boolean Expressions**
 
  
 The objective is to implement a domain-specific language (DSL) using Scala for writing and evaluating set operation expressions for designers of the digital logic to implement logic gates.
@@ -13,6 +13,7 @@ The following concepts of object oriented Language are impentented in the langua
  6. Concept of Interfaces
  7. Control Statements : IF, ELSEIF, THEN, ELSE and WHILE
  8. Exceptions : throwException, CatchException 
+ 9. Partially Evaluated Functions and Optimizers
 
 
 **
@@ -100,6 +101,11 @@ The following concepts of object oriented Language are impentented in the langua
 				Catch is used tp catch the thrown exception. If the exception is caught, it executed the thenClause and prints the reason.
 		CatchException(name: String, block: => BooleanExpression, catchBlock: BooleanExpression)
 				CatchException is function which is used to define a scope (block), where a particular exception is expected. catchBlock :  takes the input as Catch case mentioned above and if the exception is caught, it proceeds like the catch case.
+9. Partially Evaluated Functions and Optimizers
+			The language developed supports partially evaluated functions which means the expressions can be partially evaluated without complete data. 
+			eg : Variable("A") -> true, Variable("B") is not declared.
+			OR(Variable("A"),Variable("B"))  ->  true as OR(true,x) -> true.
+			Similar evaluation and optimization is done for all the Boolean Operators.
 
 ## Addressing Few Questions.
 
@@ -127,8 +133,11 @@ The following concepts of object oriented Language are impentented in the langua
 ## How to Install and Run the package
 
 Step 1 : Download or clone the git repository.
+
 Step 2 : Download and install  sbt using the following link.   https://www.scala-sbt.org/download.html
+
 Step 3 : Run sbt from the downloaded repository.
+
 Step 4 : Run the following command through terminal opened from the repository.
         sbt clean compile test
         sbt clean compile run
