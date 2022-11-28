@@ -187,6 +187,9 @@ object Sets_Classes:
       WHILE(condition,statements)
     true
 
+  
+  //The function matchCase is used to find if the environment table env has the key, else
+  // it throws an error.
   def matchCase(x : BooleanExpression) : BooleanExpression =
     x match
       case BooleanExpression.Variable(name) =>
@@ -278,46 +281,40 @@ object Sets_Classes:
       //with operate function.
       if exceptionStack.isEmpty then
         this match
-
+          //Value(x) is an identity function used to match the datatype
           case Value(x: Boolean) => Value(x)
+          //Variable is used to find the key in the environment table
           case Variable(name : String) => matchCase(Variable(name))
+          //NOT is used to return a partial function of NOT expression
           case NOT(o1) =>
             val tempX = matchCase(o1)
             NOT(tempX).map
-
+          //OR is used to return a partial function of OR expression
           case OR(a1, a2) =>
             val tempX = matchCase(a1)
             val tempY = matchCase(a2)
             OR(tempX,tempY).map
-
+          //AND is used to return a partial function of AND expression
           case AND(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
             AND(tempX,tempY).map
-
+          //NAND is used to return a partial function of NAND expression
           case NAND(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
             NAND(tempX,tempY).map
-
+          //NOR is used to return a partial function of NOR expression
           case NOR(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
             NOR(tempX,tempY).map
-
-            /* just for reference
-            tempX match
-              case Value(x) =>
-                tempY match
-                  case Value(y) => resStack.push(Value(!(tempX.operate.eval | tempY.operate.eval)))
-                  case _ => resStack.push(NOR(tempX, tempY))
-              case _ => resStack.push(NOR(tempX, tempY))
-            resStack.top*/
+          //XOR is used to return a partial function of XOR expression  
           case XOR(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
             XOR(tempX,tempY).map
-
+          //XNOR is used to return a partial function of XNOR expression
           case XNOR(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
@@ -562,7 +559,9 @@ object Sets_Classes:
             else
               Value(false)
           case _ => null
-
+    
+    //map is used to simply the partial functions evaluated by operate.
+    //The cases are optimized such that the expressions can be evaluated without any boolean operators.
     def map : BooleanExpression =
       this match
         case NOT(o1 : BooleanExpression) =>
