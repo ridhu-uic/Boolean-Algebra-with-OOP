@@ -5,8 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61a073b8-6a79-4d3c-a892-a89a84e57587" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.bsp/sbt.json" beforeDir="false" afterPath="$PROJECT_DIR$/.bsp/sbt.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/BooleanOperations-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/BooleanOperations-build.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sbt.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/compileIncremental/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/copyResources/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/copyResources/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/streams/compile/incOptions/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/compile/incOptions/_global/streams/out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/Sets_Classes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Sets_Classes.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_e2cd4c98/job-1/target/72f3233a/972868bd/booleanoperations_3-0.1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/YourSetTheoryLanguageTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/YourSetTheoryLanguageTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/bg-jobs/sbt_6e0bcef9/job-1/target/72f3233a/972868bd/booleanoperations_3-0.1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/booleanoperations_3-0.1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/booleanoperations_3-0.1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.tasty" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.tasty" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.tasty" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.tasty" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.tasty" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.tasty" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/zinc/inc_compile_3.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/zinc/inc_compile_3.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/compile/packageBin/_global/streams/inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/packageBin/_global/streams/inputs" afterDir="false" />
     </list>
@@ -23,6 +38,13 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -38,21 +60,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/rkungu2/Documents/Git 5/newdir/CS-474-/DSL_Boolean_Operations",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/rkungu2/Documents/Git 5/GIT CS 474 MG/Fall2022-CS474&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="ScalaTest.YourSetTheoryLanguageTest">
     <configuration name="YourSetTheoryLanguageTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="BooleanOperations" />
       <option name="allowRunningInParallel" value="false" />
@@ -66,9 +88,69 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="YourSetTheoryLanguageTest.my first language for set theory operations should Using map for compound expressions" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="BooleanOperations" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Test name" />
+      <option name="testClassPath" value="YourSetTheoryLanguageTest" />
+      <option name="testName" value="my first language for set theory operations should Using map for compound expressions" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="YourSetTheoryLanguageTest.my first language for set theory operations should Using map for compund expressions" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="BooleanOperations" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Test name" />
+      <option name="testClassPath" value="YourSetTheoryLanguageTest" />
+      <option name="testName" value="my first language for set theory operations should Using map for compund expressions" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="YourSetTheoryLanguageTest.my first language for set theory operations should compute and assert the truth table of OR GATE" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="BooleanOperations" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Test name" />
+      <option name="testClassPath" value="YourSetTheoryLanguageTest" />
+      <option name="testName" value="my first language for set theory operations should compute and assert the truth table of OR GATE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="YourSetTheoryLanguageTest.my first language for set theory operations should compute much more compound expressions&#10;my first language for set theory operations should compute compound expressions&#10;my first language for set theory operations should compute and assert the truth table of NAND GATE&#10;my first language for set theory operations should compute and assert the truth table of XNOR GATE&#10;my first language for set theory operations should compute and assert the truth table of OR GATE&#10;my first language for set theory operations should compute and assert the truth table of NOT GATE&#10;my first language for set theory operations should Using map for compound expressions&#10;my first language for set theory operations should Using map&#10;my first language for set theory operations should throw an exception because user did not define the exception&#10;my first language for set theory operations should Testing scope2&#10;my first language for set theory operations should Testing While&#10;my first language for set theory operations should Throw an error of misplaced if while Using IF ELSE IF and ELSE&#10;my first language for set theory operations should Using IF ELSE IF and ELSE&#10;my first language for set theory operations should Throw an exception because class does not override a method in the interface inherited by the implemented interface&#10;my first language for set theory operations should Create two interfaces and Implement it in a class&#10;my first language for set theory operations should Creates an interface&#10;my first language for set theory operations should Using the object created for the class which inherits a abstract class to call the override method&#10;my first language for set theory operations should Creating an object for the class which inherits a abstract class&#10;my first language for set theory operations should throw an Exception because object cannot be created for an abstract class&#10;my first language for set theory operations should Create an object for the class and call a method&#10;my first language for set theory operations should Create an object for the class&#10;my first language for set theory operations should inheriting a abstract class with abstract methods in Child Class&#10;my first language for set theory operations should inheriting a class with abstract methods, should throw an exception because the method is not defined in the derived class&#10;my first language for set theory operations should inheriting a class with abstract methods&#10;my first language for set theory operations should Create a class&#10;my first language for set theory operations should Create a new object for the class&#10;my first language for set theory operations should Using the object to setField&#10;my first language for set theory operations should create a gate to test the De Morgan's law&#10;my first language for set theory operations should Assign XOR gate expression to logicGate2&#10;my first language for set theory operations should abide by the De Morgan's law&#10;my first language for set theory operations should Testing Scope&#10;my first language for set theory operations should Testing Scope with XNOR, NOR and NAND" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="BooleanOperations" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Test name" />
+      <option name="testClassPath" value="YourSetTheoryLanguageTest" />
+      <option name="testName" value="my first language for set theory operations should compute much more compound expressions&#10;my first language for set theory operations should compute compound expressions&#10;my first language for set theory operations should compute and assert the truth table of NAND GATE&#10;my first language for set theory operations should compute and assert the truth table of XNOR GATE&#10;my first language for set theory operations should compute and assert the truth table of OR GATE&#10;my first language for set theory operations should compute and assert the truth table of NOT GATE&#10;my first language for set theory operations should Using map for compound expressions&#10;my first language for set theory operations should Using map&#10;my first language for set theory operations should throw an exception because user did not define the exception&#10;my first language for set theory operations should Testing scope2&#10;my first language for set theory operations should Testing While&#10;my first language for set theory operations should Throw an error of misplaced if while Using IF ELSE IF and ELSE&#10;my first language for set theory operations should Using IF ELSE IF and ELSE&#10;my first language for set theory operations should Throw an exception because class does not override a method in the interface inherited by the implemented interface&#10;my first language for set theory operations should Create two interfaces and Implement it in a class&#10;my first language for set theory operations should Creates an interface&#10;my first language for set theory operations should Using the object created for the class which inherits a abstract class to call the override method&#10;my first language for set theory operations should Creating an object for the class which inherits a abstract class&#10;my first language for set theory operations should throw an Exception because object cannot be created for an abstract class&#10;my first language for set theory operations should Create an object for the class and call a method&#10;my first language for set theory operations should Create an object for the class&#10;my first language for set theory operations should inheriting a abstract class with abstract methods in Child Class&#10;my first language for set theory operations should inheriting a class with abstract methods, should throw an exception because the method is not defined in the derived class&#10;my first language for set theory operations should inheriting a class with abstract methods&#10;my first language for set theory operations should Create a class&#10;my first language for set theory operations should Create a new object for the class&#10;my first language for set theory operations should Using the object to setField&#10;my first language for set theory operations should create a gate to test the De Morgan's law&#10;my first language for set theory operations should Assign XOR gate expression to logicGate2&#10;my first language for set theory operations should abide by the De Morgan's law&#10;my first language for set theory operations should Testing Scope&#10;my first language for set theory operations should Testing Scope with XNOR, NOR and NAND" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="ScalaTest.YourSetTheoryLanguageTest" />
+        <item itemvalue="ScalaTest.YourSetTheoryLanguageTest.my first language for set theory operations should compute much more compound expressions&#10;my first language for set theory operations should compute compound expressions&#10;my first language for set theory operations should compute and assert the truth table of NAND GATE&#10;my first language for set theory operations should compute and assert the truth table of XNOR GATE&#10;my first language for set theory operations should compute and assert the truth table of OR GATE&#10;my first language for set theory operations should compute and assert the truth table of NOT GATE&#10;my first language for set theory operations should Using map for compound expressions&#10;my first language for set theory operations should Using map&#10;my first language for set theory operations should throw an exception because user did not define the exception&#10;my first language for set theory operations should Testing scope2&#10;my first language for set theory operations should Testing While&#10;my first language for set theory operations should Throw an error of misplaced if while Using IF ELSE IF and ELSE&#10;my first language for set theory operations should Using IF ELSE IF and ELSE&#10;my first language for set theory operations should Throw an exception because class does not override a method in the interface inherited by the implemented interface&#10;my first language for set theory operations should Create two interfaces and Implement it in a class&#10;my first language for set theory operations should Creates an interface&#10;my first language for set theory operations should Using the object created for the class which inherits a abstract class to call the override method&#10;my first language for set theory operations should Creating an object for the class which inherits a abstract class&#10;my first language for set theory operations should throw an Exception because object cannot be created for an abstract class&#10;my first language for set theory operations should Create an object for the class and call a method&#10;my first language for set theory operations should Create an object for the class&#10;my first language for set theory operations should inheriting a abstract class with abstract methods in Child Class&#10;my first language for set theory operations should inheriting a class with abstract methods, should throw an exception because the method is not defined in the derived class&#10;my first language for set theory operations should inheriting a class with abstract methods&#10;my first language for set theory operations should Create a class&#10;my first language for set theory operations should Create a new object for the class&#10;my first language for set theory operations should Using the object to setField&#10;my first language for set theory operations should create a gate to test the De Morgan's law&#10;my first language for set theory operations should Assign XOR gate expression to logicGate2&#10;my first language for set theory operations should abide by the De Morgan's law&#10;my first language for set theory operations should Testing Scope&#10;my first language for set theory operations should Testing Scope with XNOR, NOR and NAND" />
+        <item itemvalue="ScalaTest.YourSetTheoryLanguageTest.my first language for set theory operations should compute and assert the truth table of OR GATE" />
+        <item itemvalue="ScalaTest.YourSetTheoryLanguageTest.my first language for set theory operations should Using map for compound expressions" />
+        <item itemvalue="ScalaTest.YourSetTheoryLanguageTest.my first language for set theory operations should Using map for compund expressions" />
       </list>
     </recent_temporary>
   </component>
@@ -83,7 +165,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669617619599</updated>
-      <workItem from="1669617621487" duration="2155000" />
+      <workItem from="1669617621487" duration="2742000" />
+      <workItem from="1670003024218" duration="770000" />
+      <workItem from="1670677597987" duration="9182000" />
     </task>
     <servers />
   </component>
@@ -100,5 +184,26 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/test/scala/YourSetTheoryLanguageTest.scala</url>
+          <line>6</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/Sets_Classes.scala</url>
+          <line>400</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/test/scala/YourSetTheoryLanguageTest.scala</url>
+          <line>7</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

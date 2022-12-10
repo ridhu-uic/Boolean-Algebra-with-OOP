@@ -1,4 +1,5 @@
 import Sets_Classes.BooleanExpression.Reason
+import Sets_Classes.BooleanExpression.*
 
 object Sets_Classes:
   /*
@@ -187,7 +188,156 @@ object Sets_Classes:
       WHILE(condition,statements)
     true
 
-  
+
+  def optimizer : BooleanExpression => BooleanExpression =
+    (operator:BooleanExpression) => operator match
+      case  NOT( o1 : BooleanExpression) => optimizerNOT(NOT(o1))
+      case Variable(name : String) => matchCase(Variable(name))
+      case AND(o1 : BooleanExpression, o2 : BooleanExpression) => optimizerAND(AND(o1,o2))
+      case OR(o1: BooleanExpression, o2: BooleanExpression) => optimizerOR(OR(o1,o2))
+      case NAND(o1: BooleanExpression, o2: BooleanExpression) => optimizerNAND(NAND(o1,o2))
+      case NOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerNOR(NOR(o1,o2))
+      case XOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerXOR(XOR(o1, o2))
+      case XNOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerXNOR(XNOR(o1,o2))
+
+  def optimizerNOT : BooleanExpression => BooleanExpression =
+    (or : BooleanExpression) => or match
+      case NOT(a1 : BooleanExpression) =>
+        val o1 = matchCase(a1)
+        o1 match
+          case Value(true) => Value(false)
+          case Value(false) => Value(true)
+          case NOT( o2 : BooleanExpression) =>
+            o2
+          case o2 : BooleanExpression =>
+            NOT(o2)
+          case _ => throw new Exception("incorrect expression")
+
+
+
+  def optimizerOR : BooleanExpression => BooleanExpression =
+    (or : BooleanExpression) => or match
+      case BooleanExpression.OR(a1 : BooleanExpression, a2 : BooleanExpression) =>
+        val o1 = matchCase(a1)
+        val o2 = matchCase(a2)
+        if o1 == BooleanExpression.Value(true) then BooleanExpression.Value(true)
+        else if o1 == BooleanExpression.Value(false) then
+          if o2 == BooleanExpression.Value(false) then
+            BooleanExpression.Value(false)
+          else
+            o2
+        else if o2 == BooleanExpression.Value(true) then
+        BooleanExpression.Value(true)
+        else if o2 == BooleanExpression.Value(false) then
+        o1
+        else
+          BooleanExpression.OR(o1, o2)
+      case _ => throw new Exception("incorrect expression")
+
+  def optimizerAND: BooleanExpression => BooleanExpression =
+    (or: BooleanExpression) => or match
+      case AND(a1: BooleanExpression, a2: BooleanExpression) =>
+        val o1 = matchCase(a1)
+        val o2 = matchCase(a2)
+        if o1 == Value(false) then
+          Value(false)
+        else if o1 == Value(true) then
+          if o2 == Value(true) then
+            Value(true)
+          else
+            o2
+        else if o2 == Value(false) then
+          Value(false)
+        else if o2 == Value(true) then
+          o1
+        else
+          AND(o1, o2)
+      case _ => throw new Exception("incorrect expression")
+
+  def optimizerNAND: BooleanExpression => BooleanExpression =
+    (or: BooleanExpression) => or match
+      case NAND(a1: BooleanExpression, a2: BooleanExpression) =>
+        val o1 = matchCase(a1)
+        val o2 = matchCase(a2)
+        if o1 == Value(false) then
+          Value(true)
+        else if o1 == Value(true) then
+          if o2 == Value(true) then
+            Value(false)
+          else
+            NOT(o2).map(optimizerNOT)
+        else if o2 == Value(false) then
+          Value(true)
+        else if o2 == Value(true) then
+          NOT(o1).map(optimizerNOT)
+        else
+          NAND(o1, o2)
+      case _ => throw new Exception("incorrect expression")
+
+
+  def optimizerNOR: BooleanExpression => BooleanExpression =
+    (or: BooleanExpression) => or match
+      case NOR(a1: BooleanExpression, a2: BooleanExpression) =>
+        val o1 = matchCase(a1)
+        val o2 = matchCase(a2)
+        if o1 == Value(true) then
+          Value(false)
+        else if o1 == Value(false) then
+          if o2 == Value(false) then
+            Value(true)
+          else
+            NOT(o2).map(optimizerNOT)
+        else if o2 == Value(true) then
+          Value(false)
+        else if o2 == Value(false) then
+          NOT(o1).map(optimizerNOT)
+        else
+          NOR(o1, o2)
+
+  def optimizerXOR : BooleanExpression => BooleanExpression =
+    (or: BooleanExpression) => or match
+      case XOR(a1: BooleanExpression, a2: BooleanExpression) =>
+        val o1 = matchCase(a1)
+        val o2 = matchCase(a2)
+        if o1 == Value(false) then
+          o2
+        else if o1 == Value(true) then
+          NOT(o2).map(optimizerNOT)
+        else if o2 == Value(false) then
+          o1
+        else if o2 == Value(true) then
+          NOT(o1).map(optimizerNOT)
+        else
+          XOR(o1, o2)
+
+      case _ => throw new Exception("incorrect expression")
+
+  def optimizerXNOR  : BooleanExpression => BooleanExpression =
+    (or: BooleanExpression) => or match
+      case XNOR(a1: BooleanExpression, a2: BooleanExpression) =>
+        val o1 = matchCase(a1)
+        val o2 = matchCase(a2)
+        if o1 == Value(false) then
+          NOT(o2).map(optimizerNOT)
+        else if o1 == Value(true) then
+          o2
+        else if o2 == Value(false) then
+          NOT(o1).map(optimizerNOT)
+        else if o2 == Value(true) then
+          o1
+        else
+          XNOR(o1, o2)
+      case _ => throw new Exception("incorrect expression")
+
+
+
+
+
+
+
+
+
+
   //The function matchCase is used to find if the environment table env has the key, else
   // it throws an error.
   def matchCase(x : BooleanExpression) : BooleanExpression =
@@ -205,7 +355,7 @@ object Sets_Classes:
 
       case _ =>
         x.operate
-  
+
   enum BooleanExpression:
     //Cases for creating and managing classes, objects, interfaces, exceptions with names related to their actual function.
     case get_Field(name_field: String)
@@ -275,6 +425,8 @@ object Sets_Classes:
         this match
           case _ => throw new Exception("Exception Exists")
 
+
+
     //Using function operate to manage creation of classes, objects and interfaces.
     def operate : BooleanExpression =
       //The BooleanFunctions are again rewritten to support the operations of the boolean functions
@@ -288,37 +440,39 @@ object Sets_Classes:
           //NOT is used to return a partial function of NOT expression
           case NOT(o1) =>
             val tempX = matchCase(o1)
-            NOT(tempX).map
+            NOT(tempX).map(optimizerNOT)
           //OR is used to return a partial function of OR expression
           case OR(a1, a2) =>
             val tempX = matchCase(a1)
             val tempY = matchCase(a2)
-            OR(tempX,tempY).map
+            OR(tempX,tempY).map(optimizerOR)
+
           //AND is used to return a partial function of AND expression
           case AND(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
-            AND(tempX,tempY).map
+            AND(tempX,tempY).map(optimizerAND)
           //NAND is used to return a partial function of NAND expression
           case NAND(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
-            NAND(tempX,tempY).map
+            NAND(tempX,tempY).map(optimizerNAND)
           //NOR is used to return a partial function of NOR expression
           case NOR(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
-            NOR(tempX,tempY).map
-          //XOR is used to return a partial function of XOR expression  
+            NOR(tempX,tempY).map(optimizerNOR)
+          //XOR is used to return a partial function of XOR expression
           case XOR(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
-            XOR(tempX,tempY).map
+            XOR(tempX,tempY).map(optimizerXOR)
           //XNOR is used to return a partial function of XNOR expression
           case XNOR(o1, o2) =>
             val tempX = matchCase(o1)
             val tempY = matchCase(o2)
-            XNOR(tempX,tempY).map
+            XNOR(tempX,tempY).map(optimizerXNOR)
+
           case gate_Value(l: LogicGate) => Value(gate_Value(l).eval)
           case PRINT(statement : BooleanExpression) =>
             println(statement)
@@ -559,107 +713,12 @@ object Sets_Classes:
             else
               Value(false)
           case _ => null
-    
+
     //map is used to simply the partial functions evaluated by operate.
     //The cases are optimized such that the expressions can be evaluated without any boolean operators.
-    def map : BooleanExpression =
-      this match
-        case NOT(o1 : BooleanExpression) =>
-          if o1 == Value(true) then
-            Value(false)
-          else if o1 == Value(false) then
-            Value(true)
-          else
-            NOT(o1)
-        case OR(o1: BooleanExpression, o2: BooleanExpression) =>
-          if o1 == Value(true) then
-            Value(true)
-          else if o1 == Value(false) then
-            if o2 == Value(false) then
-              Value(false)
-            else
-              o2
-          else
-            if o2 == Value(true) then
-              Value(true)
-            else if o2 == Value(false) then
-              o1
-            else
-              OR(o1,o2)
-
-        case AND(o1: BooleanExpression, o2: BooleanExpression) =>
-          if o1 == Value(false) then
-            Value(false)
-          else if o1 == Value(true) then
-            if o2 == Value(true) then
-              Value(true)
-            else
-              o2
-          else
-            if o2 == Value(false) then
-              Value(false)
-            else if o2 == Value(true) then
-              o1
-            else
-              AND(o1, o2)
-
-        case NAND(o1: BooleanExpression, o2: BooleanExpression) =>
-          if o1 == Value(false) then
-            Value(true)
-          else if o1 == Value(true) then
-            if o2 == Value(true) then
-              Value(false)
-            else
-              NOT(o2).map
-          else
-            if o2 == Value(false) then
-              Value(true)
-            else if o2 == Value(true) then
-              NOT(o1).map
-            else
-              NAND(o1, o2)
-
-        case NOR(o1: BooleanExpression, o2: BooleanExpression) =>
-          if o1 == Value(true) then
-            Value(false)
-          else if o1 == Value(false) then
-            if o2 == Value(false) then
-              Value(true)
-            else
-              NOT(o2).map
-          else if o2 == Value(true) then
-            Value(false)
-          else if o2 == Value(false) then
-            NOT(o1).map
-          else
-            NOR(o1, o2)
-
-        case XOR(o1: BooleanExpression, o2: BooleanExpression) =>
-          if o1 == Value(false) then
-            o2
-          else if o1 == Value(true) then
-            NOT(o2).map
-          else
-            if o2 == Value(false) then
-              o1
-            else if o2 == Value(true) then
-              NOT(o1).map
-            else
-              XOR(o1, o2)
-
-        case XNOR(o1: BooleanExpression, o2: BooleanExpression) =>
-          if o1 == Value(false) then
-            NOT(o2).map
-          else if o1 == Value(true) then
-            o2
-          else if o2 == Value(false) then
-            NOT(o1).map
-          else if o2 == Value(true) then
-            o1
-          else
-            XNOR(o1, o2)
-
-        case _ => throw new Exception("Match not found in map def")
+    def map(f : BooleanExpression => BooleanExpression ) : BooleanExpression =
+      f(this)
+      //case _ => throw new Exception("Match not found in map def")
 
   @main def runIT(): Unit =
     println(Sets_Classes)

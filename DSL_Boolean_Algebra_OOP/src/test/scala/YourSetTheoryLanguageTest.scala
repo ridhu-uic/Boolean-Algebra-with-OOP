@@ -7,30 +7,76 @@ import scala.collection.immutable.List
 class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
   behavior of "my first language for set theory operations"
 
+
+
+
   it should "compute much more compound expressions" in {
-    assert(XOR(NOT(NOT(Variable("B"))),NAND(NOT(Variable("A")), OR(Value(true), AND(Value(false), Variable("B"))))).operate ==  NOT(NOT(NOT(Variable("B")))))
+    println(NAND(NOT(Variable("A")), OR(Value(true), AND(Value(false), Variable("B")))).map(optimizer))
+    println(XOR(Variable("B"),Value(true)).map(optimizerXOR))
+    assert(XOR(NOT(NOT(Variable("B"))),NAND(NOT(Variable("A")), OR(Value(true), AND(Value(false), Variable("B"))))).map(optimizer) ==  NOT(Variable("B")))
   }
 
   it should "compute compound expressions" in {
-    assert(NAND(NOT(Variable("A")),OR(Value(true),AND(Value(false),Variable("B")))).operate==Value(true))
+    assert(NAND(NOT(Variable("A")),OR(Value(true),AND(Value(false),Variable("B")))).map(optimizer)==Value(true))
   }
 
   it should "compute and assert the truth table of NAND GATE" in {
-    assert(NAND(Variable("A"), Variable("B")).operate == NOT(Variable("B"))) //"A" -> true
-    assert(XNOR(Value(false), Variable("B")).operate == NOT(Variable("B")))
-    assert(XNOR(Value(false), Value(false)).operate == Value(true))
+    assert(NAND(Variable("A"), Variable("B")).map(optimizerNAND) == NOT(Variable("B"))) //"A" -> true
+    assert(XNOR(Value(false), Variable("B")).map(optimizerXNOR) == NOT(Variable("B")))
+    assert(XNOR(Value(false), Value(false)).map(optimizerXNOR) == Value(true))
   }
 
   it should "compute and assert the truth table of XNOR GATE" in {
-    assert(XNOR(Variable("A"), Variable("B")).operate == Variable("B")) //"A" -> true
-    assert(XNOR(Value(false), Variable("B")).operate == NOT(Variable("B")))
-    assert(XNOR(Value(false), Value(false)).operate == Value(true))
+    assert(XNOR(Variable("A"), Variable("B")).map(optimizerXNOR) == Variable("B")) //"A" -> true
+    assert(XNOR(Value(false), Variable("B")).map(optimizerXNOR) == NOT(Variable("B")))
+    assert(XNOR(Value(false), Value(false)).map(optimizerXNOR) == Value(true))
   }
 
   it should "compute and assert the truth table of OR GATE" in {
-    assert(OR(Variable("A"),Variable("B")).operate==Value(true))  //"A" -> true
-    assert(OR(Value(false),Variable("B")).operate==Variable("B"))
-    assert(OR(Value(false),Value(false)).operate==Value(false))
+    assert(OR(Variable("A"),Variable("B")).map(optimizerOR)==Value(true))  //"A" -> true
+    assert(OR(Value(false),Variable("B")).map(optimizerOR)==Variable("B"))
+    assert(OR(Value(false),Value(false)).map(optimizerOR)==Value(false))
+  }
+
+  it should "compute and assert the truth table of NOT GATE" in {
+    assert(NOT(NOT(Variable("B"))).map(optimizerNOT)==Variable("B"))
+    assert(NOT(Variable("A")).map(optimizerNOT) == Value(false)) //"A" -> true
+
+  }
+
+  it should "Using map for compound expressions" in {
+    //NAND(NOT(Variable("A")), OR(Value(true), AND(Value(false), Variable("B"))))
+
+    assert(AND(OR(Value(true), NOT(Variable("C"))), Value(false)).map(
+      optimizer
+    ) == Value(false))
+
+
+    assert(AND(Value(true), Value(false)).map(
+      optimizer
+    ) == Value(false))
+  }
+
+  it should "Using map with own function" in {
+    assert(AND(Value(true), Value(false)).map({
+      (or: BooleanExpression) =>
+        or match
+          case AND(o1: BooleanExpression, o2: BooleanExpression) =>
+            if o1 == Value(false) then
+              Value(false)
+            else if o1 == Value(true) then
+              if o2 == Value(true) then
+                Value(true)
+              else
+                o2
+            else if o2 == Value(false) then
+              Value(false)
+            else if o2 == Value(true) then
+              o1
+            else
+              AND(o1, o2)
+          case _ => throw new Exception("incorrect expression")
+    }) == Value(false))
   }
 
 
