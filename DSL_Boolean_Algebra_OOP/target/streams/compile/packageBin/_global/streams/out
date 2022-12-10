@@ -1,0 +1,163 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\booleanoperations_3-0.1.0-SNAPSHOT.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	runIT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\runIT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	runIT.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\runIT.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$accessSpecifier$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$accessSpecifier$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$accessSpecifier$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$accessSpecifier$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$accessSpecifier.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$accessSpecifier.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$abstractMethod$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$abstractMethod$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$abstractMethod.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$abstractMethod.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$AND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$AND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$AND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$AND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$assign$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$assign$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$assign.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$assign.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Catch$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Catch$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Catch.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Catch.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$ClassDef$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$ClassDef$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$ClassDef.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$ClassDef.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$exceptionClassDef$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$exceptionClassDef$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$exceptionClassDef.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$exceptionClassDef.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Field$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Field$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$gate_Value$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$gate_Value$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$gate_Value.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$gate_Value.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$getParameter$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$getParameter$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$getParameter.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$getParameter.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$get_Field$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$get_Field$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$get_Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$get_Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$input$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$input$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$input.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$input.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$interface$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$interface$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$interface.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$interface.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$invokeMethod$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$invokeMethod$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$invokeMethod.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$invokeMethod.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Method$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Method$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Method.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Method.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NAND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NAND$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NAND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NAND.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NewObject$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NewObject$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NewObject.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NewObject.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NOT$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NOT$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$NOT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$NOT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Object$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Object$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Object.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Object.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$OR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$OR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$OR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$OR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$PRINT$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$PRINT$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$PRINT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$PRINT.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Reason$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Reason$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Reason.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Reason.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$scope$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$scope$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$scope.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$scope.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$setParameter$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$setParameter$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$setParameter.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$setParameter.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$set_Field$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$set_Field$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$set_Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$set_Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$throwException$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$throwException$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$throwException.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$throwException.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Value$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Value$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Value.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Value.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Variable$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Variable$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$Variable.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$Variable.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$XNOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$XNOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$XNOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$XNOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$XOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$XOR$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression$XOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression$XOR.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$BooleanExpression.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$BooleanExpression.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$ifVal$$anon$3.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$ifVal$$anon$3.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$ifVal$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$ifVal$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$ifVal.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$ifVal.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$Input$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$Input$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$Input.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$Input.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$LogicGate$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$LogicGate$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$LogicGate.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$LogicGate.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$objectScope$$anon$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$objectScope$$anon$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$objectScope$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$objectScope$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes$objectScope.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes$objectScope.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Sets_Classes.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Users\rkungu2\Documents\Git 5\newdir\CS-474-\DSL_Boolean_Algebra_OOP\target\scala-3.2.1\classes\Sets_Classes.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m
