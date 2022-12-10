@@ -133,11 +133,8 @@ The following concepts of object oriented Language are impentented in the langua
 ## How to Install and Run the package
 
 Step 1 : Download or clone the git repository.
-
 Step 2 : Download and install  sbt using the following link.   https://www.scala-sbt.org/download.html
-
 Step 3 : Run sbt from the downloaded repository.
-
 Step 4 : Run the following command through terminal opened from the repository.
         sbt clean compile test
         sbt clean compile run
