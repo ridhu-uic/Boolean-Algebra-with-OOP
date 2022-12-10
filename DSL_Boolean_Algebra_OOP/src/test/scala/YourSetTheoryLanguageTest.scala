@@ -6,10 +6,7 @@ import scala.collection.immutable.List
 
 class YourSetTheoryLanguageTest extends AnyFlatSpec with Matchers {
   behavior of "my first language for set theory operations"
-
-
-
-
+  
   it should "compute much more compound expressions" in {
     println(NAND(NOT(Variable("A")), OR(Value(true), AND(Value(false), Variable("B")))).map(optimizer))
     println(XOR(Variable("B"),Value(true)).map(optimizerXOR))
