@@ -107,6 +107,10 @@ The following concepts of object oriented Language are impentented in the langua
 			OR(Variable("A"),Variable("B"))  ->  true as OR(true,x) -> true.
 			Similar evaluation and optimization is done for all the Boolean Operators.
 
+			The language has a function called as map. Its used with a boolean expression. eg : AND(Variable("A"),Variable("B")).map(optimizerAND)
+			The map function helps to partially evaluate and optimize the calculation process. Compound Expressions can make use of the fuction optimizer
+			which has optimized process for every boolean operation.Simple expressions of single boolean operator can make use of optimizer"operator name".
+			e.g. optimizerXNOR. The language also allows you to write your own function for map. (Note* : The user defined code must be syntactically and semantically correct to work with language)
 ## Addressing Few Questions.
 
  1. Can a class/interface inherit from itself? 	
