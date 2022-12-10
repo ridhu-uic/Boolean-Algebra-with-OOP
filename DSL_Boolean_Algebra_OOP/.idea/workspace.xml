@@ -5,22 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61a073b8-6a79-4d3c-a892-a89a84e57587" name="Changes" comment="HW5 again">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/YourSetTheoryLanguageTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/YourSetTheoryLanguageTest.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.tasty" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/Sets_Classes.tasty" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.tasty" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/classes/runIT.tasty" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.tasty" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/test-classes/YourSetTheoryLanguageTest.tasty" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/test-zinc/inc_compile_3.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/test-zinc/inc_compile_3.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/zinc/inc_compile_3.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-3.2.1/zinc/inc_compile_3.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/compile/compile/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/compile/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/compileIncremental/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/compileIncremental/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/definedTests/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/definedTests/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/test/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/test/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/test/_global/streams/succeeded_tests" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/test/_global/streams/succeeded_tests" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-reports/TEST-YourSetTheoryLanguageTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-reports/TEST-YourSetTheoryLanguageTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/test-sync/copy-resource" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/runtime/exportedProducts/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/compileOutputs/previous" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/definedTestNames/data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/dependencyClasspathFiles/previous" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/discoveredMainClasses/data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/bspReporter/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/compile/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/compileIncremental/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/copyResources/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/dependencyClasspath/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/exportedProducts/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/externalDependencyClasspath/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/fullClasspath/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/incOptions/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/internalDependencyClasspath/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/internalDependencyClasspath/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/loadedTestFrameworks/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/managedClasspath/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/scalacOptions/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/test/isModule=false name=YourSetTheoryLanguageTest/test/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/testListeners/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/unmanagedClasspath/_global/streams/export" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/unmanagedClasspath/_global/streams/out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/unmanagedJars/_global/streams/export" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +173,7 @@
       <updated>1669617619599</updated>
       <workItem from="1669617621487" duration="2742000" />
       <workItem from="1670003024218" duration="770000" />
-      <workItem from="1670677597987" duration="10430000" />
+      <workItem from="1670677597987" duration="10778000" />
     </task>
     <task id="LOCAL-00001" summary="HW5 again">
       <created>1670690634302</created>
@@ -173,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670690634302</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="HW5 again">
+      <created>1670691863353</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1670691863353</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
