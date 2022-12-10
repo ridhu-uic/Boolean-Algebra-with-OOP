@@ -199,6 +199,7 @@ object Sets_Classes:
       case NOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerNOR(NOR(o1,o2))
       case XOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerXOR(XOR(o1, o2))
       case XNOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerXNOR(XNOR(o1,o2))
+      case _ => throw new Exception("case not  optimized in optimizer")
 
   def optimizerNOT : BooleanExpression => BooleanExpression =
     (or : BooleanExpression) => or match
@@ -211,8 +212,7 @@ object Sets_Classes:
             o2
           case o2 : BooleanExpression =>
             NOT(o2)
-          case _ => throw new Exception("incorrect expression")
-
+      case _ => throw new Exception("abnormal behavior")
 
 
   def optimizerOR : BooleanExpression => BooleanExpression =
@@ -293,6 +293,8 @@ object Sets_Classes:
           NOT(o1).map(optimizerNOT)
         else
           NOR(o1, o2)
+      case _ => throw new Exception("abnormal behavior")
+
 
   def optimizerXOR : BooleanExpression => BooleanExpression =
     (or: BooleanExpression) => or match
