@@ -4,32 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="61a073b8-6a79-4d3c-a892-a89a84e57587" name="Changes" comment="HW5 again">
-      <change beforePath="$PROJECT_DIR$/target/scala-3.2.1/test-sync/copy-resource" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/runtime/exportedProducts/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/compileOutputs/previous" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/definedTestNames/data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/dependencyClasspathFiles/previous" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/_global/_global/discoveredMainClasses/data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/bspReporter/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/compile/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/compileIncremental/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/copyResources/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/dependencyClasspath/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/exportedProducts/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/externalDependencyClasspath/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/fullClasspath/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/incOptions/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/internalDependencyClasspath/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/internalDependencyClasspath/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/loadedTestFrameworks/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/managedClasspath/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/scalacOptions/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/test/isModule=false name=YourSetTheoryLanguageTest/test/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/testListeners/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/unmanagedClasspath/_global/streams/export" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/unmanagedClasspath/_global/streams/out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/test/unmanagedJars/_global/streams/export" beforeDir="false" />
+    <list default="true" id="61a073b8-6a79-4d3c-a892-a89a84e57587" name="Changes" comment="Boolean Algebra and OOP">
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Sets_Classes.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Sets_Classes.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +149,7 @@
       <updated>1669617619599</updated>
       <workItem from="1669617621487" duration="2742000" />
       <workItem from="1670003024218" duration="770000" />
-      <workItem from="1670677597987" duration="10778000" />
+      <workItem from="1670677597987" duration="11500000" />
     </task>
     <task id="LOCAL-00001" summary="HW5 again">
       <created>1670690634302</created>
@@ -189,7 +165,21 @@
       <option name="project" value="LOCAL" />
       <updated>1670691863353</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Boolean Algebra and OOP">
+      <created>1670693749995</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1670693749995</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Boolean Algebra and OOP">
+      <created>1670693760540</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1670693760540</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,7 +198,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="HW5 again" />
-    <option name="LAST_COMMIT_MESSAGE" value="HW5 again" />
+    <MESSAGE value="Boolean Algebra and OOP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Boolean Algebra and OOP" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -220,7 +211,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/Sets_Classes.scala</url>
-          <line>402</line>
+          <line>399</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">

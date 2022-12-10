@@ -187,8 +187,6 @@ object Sets_Classes:
       statements
       WHILE(condition,statements)
     true
-
-
   def optimizer : BooleanExpression => BooleanExpression =
     (operator:BooleanExpression) => operator match
       case  NOT( o1 : BooleanExpression) => optimizerNOT(NOT(o1))
@@ -200,7 +198,6 @@ object Sets_Classes:
       case XOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerXOR(XOR(o1, o2))
       case XNOR(o1: BooleanExpression, o2: BooleanExpression) => optimizerXNOR(XNOR(o1,o2))
       case _ => throw new Exception("case not  optimized in optimizer")
-
   def optimizerNOT : BooleanExpression => BooleanExpression =
     (or : BooleanExpression) => or match
       case NOT(a1 : BooleanExpression) =>
@@ -418,17 +415,12 @@ object Sets_Classes:
             logicGateStack.pop
             resultStack.push(result)
           case _ => throw new Exception("Matching case not found under eval.")
-
         val evalResult = resultStack.top
         resultStack.clear()
         evalResult
-
       else
         this match
           case _ => throw new Exception("Exception Exists")
-
-
-
     //Using function operate to manage creation of classes, objects and interfaces.
     def operate : BooleanExpression =
       //The BooleanFunctions are again rewritten to support the operations of the boolean functions
@@ -715,13 +707,11 @@ object Sets_Classes:
             else
               Value(false)
           case _ => null
-
     //map is used to simply the partial functions evaluated by operate.
     //The cases are optimized such that the expressions can be evaluated without any boolean operators.
     def map(f : BooleanExpression => BooleanExpression ) : BooleanExpression =
       f(this)
       //case _ => throw new Exception("Match not found in map def")
-
   @main def runIT(): Unit =
     println(Sets_Classes)
     println(env.getOrElse("A",throw new Exception("contains not works properly")))
